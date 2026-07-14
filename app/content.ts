@@ -2,7 +2,7 @@ export const marqueeWords = [
   "Triple A",
   "Manufactura inteligente",
   "Almacenamiento",
-  "4,500 KWa",
+  "2,400 KWa instalados",
   "Vigilancia 24/7",
   "Bodegas de concreto",
   "Logística",
@@ -11,19 +11,18 @@ export const marqueeWords = [
 ];
 
 export const stats = [
-  { value: "100,000", label: "m² · Área total del parque", delay: 0 },
-  { value: "65,000", label: "m² · Área arrendable", delay: 90 },
-  { value: "4,500", label: "KWa · Disponibilidad energética", delay: 180 },
-  { value: "+200,000", label: "Casas habitación alrededor", delay: 270 },
+  { value: "67,000", label: "m²", delay: 0 },
+  { value: "2,400", label: "KWa instalados", delay: 90 },
+  { value: "900", label: "KW · Energías limpias", delay: 180 },
 ];
 
 export const fronteras = [
   { name: "Puente Colombia", km: "230 km" },
-  { name: "Nuevo Laredo", km: "190 km" },
+  { name: "Pharr, Texas", km: "190 km" },
   { name: "Reynosa", km: "232 km" },
 ];
 
-export type LocationItem = { num?: string; name: string; km: string };
+export type LocationItem = { num?: string; name: string; km?: string };
 
 export const locationTabs: {
   key: string;
@@ -33,16 +32,20 @@ export const locationTabs: {
   {
     key: "empresas",
     label: "Empresas",
+    // La numeración es propia de esta lista: ya no corresponde a los puntos del mapa.
+    // Lego y Volvo aún no tienen distancia confirmada.
     items: [
-      { num: "01", name: "Tesla", km: "48 km" },
-      { num: "02", name: "Nemak", km: "40 km" },
-      { num: "03", name: "John Deere", km: "39 km" },
-      { num: "04", name: "Caterpillar", km: "38 km" },
-      { num: "05", name: "Kia Plant", km: "25 km" },
-      { num: "06", name: "Ternium Pesquería", km: "26 km" },
-      { num: "07", name: "Ternium Planos", km: "24 km" },
-      { num: "08", name: "Ternium Largos", km: "19 km" },
-      { num: "09", name: "Frisa", km: "40 km" },
+      { num: "01", name: "Lego" },
+      { num: "02", name: "Volvo" },
+      { num: "03", name: "Ternium Pesquería", km: "26 km" },
+      { num: "04", name: "Ternium Planos", km: "24 km" },
+      { num: "05", name: "Ternium Largos", km: "19 km" },
+      { num: "06", name: "Kia Plant", km: "25 km" },
+      { num: "07", name: "Tesla", km: "48 km" },
+      { num: "08", name: "Nemak", km: "40 km" },
+      { num: "09", name: "John Deere", km: "39 km" },
+      { num: "10", name: "Caterpillar", km: "38 km" },
+      { num: "11", name: "Frisa", km: "40 km" },
     ],
   },
   {

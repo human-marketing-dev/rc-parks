@@ -189,11 +189,11 @@ export default function Home() {
       {/* STATS */}
       <section className="bg-ink py-24 text-white">
         <div className={SHELL}>
-          <div className="grid grid-cols-2 gap-px border border-white/15 bg-white/15 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-px border border-white/15 bg-white/15 sm:grid-cols-3">
             {stats.map((stat) => (
               <Reveal key={stat.label} delay={stat.delay} className="bg-ink">
                 <div className="px-6 py-10 md:px-[34px] md:py-[46px]">
-                  <div className="text-[clamp(2.2rem,4vw,54px)] leading-none font-medium tracking-[-0.046em] text-azure">
+                  <div className="text-[clamp(2.2rem,4vw,54px)] leading-none font-medium tracking-[-0.046em] whitespace-nowrap text-azure">
                     {stat.value}
                   </div>
                   <div className="mt-3.5 text-[15px] leading-[1.4] text-white/60">
@@ -534,14 +534,14 @@ export default function Home() {
                 </span>
               </a>
               <a
-                href="https://wa.me/528100000000"
+                href="https://wa.me/528131006363"
                 className="flex flex-col gap-1.5 transition-colors hover:text-azure"
               >
                 <span className="text-xs tracking-[1.5px] text-white/40 uppercase">
                   Teléfono · WhatsApp
                 </span>
                 <span className="text-[20px] font-medium">
-                  +52 81 0000 0000
+                  +52 81 3100 6363
                 </span>
               </a>
               <div className="flex flex-col gap-1.5">

@@ -48,9 +48,11 @@ export function LocationTabs() {
                 {item.name}
               </span>
             </div>
-            <span className="whitespace-nowrap text-[16px] font-medium tabular-nums text-azure">
-              {item.km}
-            </span>
+            {item.km ? (
+              <span className="whitespace-nowrap text-[16px] font-medium tabular-nums text-azure">
+                {item.km}
+              </span>
+            ) : null}
           </div>
         ))}
       </div>
