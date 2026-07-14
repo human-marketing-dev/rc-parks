@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-ink: #0a0a0a;
+  --color-azure: #4ebfe0;
+  --color-stone: #e8e6e4;
+  --color-stone-dark: #dedcda;
+  --color-hairline: #f0efec;
+  --color-field: #dad8d5;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-kenburns: kenburns 14s ease-out forwards;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes kenburns {
+    from {
+      transform: scale(1.08);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #fff;
+  color: var(--color-ink);
+}
+
+::selection {
+  background: var(--color-azure);
+  color: #000;
+}
+
+/* Hero intro: plays on load, no observer needed. */
+.fade-up {
+  animation: fade-up 0.8s ease both;
+}
+
+/* Scroll reveal — the hidden state lives in CSS so it applies before hydration. */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .fade-up,
+  .reveal,
+  .reveal.is-visible {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
