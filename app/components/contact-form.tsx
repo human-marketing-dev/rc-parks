@@ -1,11 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import type { Dictionary } from "../dictionaries";
 
 const fieldClass =
   "border-b border-field bg-transparent py-2.5 text-[16px] outline-none transition-colors focus:border-azure";
 
-export function ContactForm() {
+export function ContactForm({
+  dict,
+}: {
+  dict: Dictionary["contact"]["form"];
+}) {
   const [sentName, setSentName] = useState<string | null>(null);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -22,11 +27,12 @@ export function ContactForm() {
           ✓
         </span>
         <h3 className="text-[28px] font-medium tracking-[-0.6px]">
-          ¡Gracias{sentName ? `, ${sentName}` : ""}!
+          {sentName
+            ? dict.thanksNamed.replace("{name}", sentName)
+            : dict.thanks}
         </h3>
         <p className="text-[16px] leading-[1.55] text-ink/60">
-          Hemos recibido tu solicitud. Un asesor de R.C. Parks te contactará muy
-          pronto.
+          {dict.thanksBody}
         </p>
       </div>
     );
@@ -37,25 +43,25 @@ export function ContactForm() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-[22px]">
         <div className="flex flex-col gap-2">
           <label htmlFor="nombre" className="text-[13px] text-ink/55">
-            Nombre completo
+            {dict.name}
           </label>
           <input
             id="nombre"
             name="nombre"
             required
-            placeholder="Tu nombre"
+            placeholder={dict.namePlaceholder}
             className={fieldClass}
           />
         </div>
 
         <div className="flex flex-col gap-2">
           <label htmlFor="empresa" className="text-[13px] text-ink/55">
-            Empresa
+            {dict.company}
           </label>
           <input
             id="empresa"
             name="empresa"
-            placeholder="Nombre de tu empresa"
+            placeholder={dict.companyPlaceholder}
             className={fieldClass}
           />
         </div>
@@ -63,26 +69,26 @@ export function ContactForm() {
         <div className="grid gap-[22px] sm:grid-cols-2">
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="text-[13px] text-ink/55">
-              Email
+              {dict.email}
             </label>
             <input
               id="email"
               name="email"
               type="email"
               required
-              placeholder="tu@email.com"
+              placeholder={dict.emailPlaceholder}
               className={fieldClass}
             />
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="telefono" className="text-[13px] text-ink/55">
-              Teléfono
+              {dict.phone}
             </label>
             <input
               id="telefono"
               name="telefono"
               type="tel"
-              placeholder="+52"
+              placeholder={dict.phonePlaceholder}
               className={fieldClass}
             />
           </div>
@@ -90,13 +96,13 @@ export function ContactForm() {
 
         <div className="flex flex-col gap-2">
           <label htmlFor="mensaje" className="text-[13px] text-ink/55">
-            ¿Qué espacio buscas?
+            {dict.message}
           </label>
           <textarea
             id="mensaje"
             name="mensaje"
             rows={3}
-            placeholder="m² requeridos, energía, fechas..."
+            placeholder={dict.messagePlaceholder}
             className={`${fieldClass} resize-none`}
           />
         </div>
@@ -105,7 +111,7 @@ export function ContactForm() {
           type="submit"
           className="mt-2.5 cursor-pointer rounded-[2px] bg-ink p-[17px] text-[16px] font-medium text-white transition-colors hover:bg-azure hover:text-ink"
         >
-          Enviar solicitud
+          {dict.submit}
         </button>
       </form>
     </div>
