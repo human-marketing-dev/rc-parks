@@ -38,11 +38,6 @@ export const locationGroups: LocationGroup[] = [
       { id: "ternium-planos", num: "04", km: "24 km" },
       { id: "ternium-largos", num: "05", km: "19 km" },
       { id: "kia", num: "06", km: "25 km" },
-      { id: "tesla", num: "07", km: "48 km" },
-      { id: "nemak", num: "08", km: "40 km" },
-      { id: "john-deere", num: "09", km: "39 km" },
-      { id: "caterpillar", num: "10", km: "38 km" },
-      { id: "frisa", num: "11", km: "40 km" },
     ],
   },
   {
