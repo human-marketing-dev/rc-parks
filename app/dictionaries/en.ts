@@ -104,11 +104,11 @@ export const en: Dictionary = {
   gallery: {
     eyebrow: "03 — Gallery",
     title: "Triple A warehouses, ready for world-class operations.",
-    captionEyebrow: "Masterplan",
+    captionEyebrow: "Exterior",
     captionTitle: "Modular buildings with docks and pneumatic ramps.",
-    aerialAlt: "Aerial view of the masterplan",
-    entranceAlt: "Entrance to the park",
-    droneAlt: "Construction progress",
+    exteriorAlt: "Exterior view of the warehouses with loading docks",
+    interiorAlt: "Warehouse interior",
+    oficinasAlt: "Meeting room in the offices",
   },
 
   location: {

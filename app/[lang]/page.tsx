@@ -118,14 +118,20 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         className="relative flex min-h-[90vh] items-end overflow-hidden bg-ink text-white"
       >
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <Image
-            src="/assets/drone.jpg"
-            alt={t.hero.imageAlt}
-            fill
-            priority
-            sizes="100vw"
-            className="animate-kenburns object-cover opacity-[0.62]"
-          />
+          {/* Video de fondo decorativo: el <h1> lleva el significado, así que va
+              aria-hidden. El poster cubre la carga y el fallback si no reproduce. */}
+          <video
+            className="h-full w-full object-cover opacity-[0.62]"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/assets/hero-poster.jpg"
+            aria-hidden="true"
+          >
+            <source src="/assets/hero.mp4" type="video/mp4" />
+          </video>
         </div>
         <div className="absolute inset-0 z-10 bg-linear-0 from-ink/95 from-0% via-ink/45 via-45% to-ink/25" />
 
@@ -227,7 +233,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           <Reveal delay={80} className="mt-16">
             <div className="relative overflow-hidden rounded-[4px]">
               <Image
-                src="/assets/rc-parks-3.webp"
+                src="/assets/rc-parks-aerea-2.webp"
                 alt={t.why.imageAlt}
                 width={1280}
                 height={720}
@@ -271,7 +277,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <Reveal className="sm:col-span-2 sm:row-span-2">
               <div className="relative h-full overflow-hidden rounded-[5px] transition-transform duration-400 hover:-translate-y-[5px]">
                 <Image
-                  src="/assets/rc-parks-4.webp"
+                  src="/assets/rc-parks-aerea.webp"
                   alt={t.amenities.feature.imageAlt}
                   fill
                   sizes="(max-width: 640px) 100vw, 66vw"
@@ -392,10 +398,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           <Reveal delay={60} className="mb-4">
             <div className="relative overflow-hidden rounded-[4px]">
               <Image
-                src="/assets/rc-parks-5.webp"
-                alt={t.gallery.aerialAlt}
-                width={1280}
-                height={720}
+                src="/assets/rc-parks-exterior.webp"
+                alt={t.gallery.exteriorAlt}
+                width={3016}
+                height={1692}
                 sizes="(max-width: 1400px) 100vw, 1400px"
                 className="h-[340px] w-full object-cover md:h-[560px]"
               />
@@ -414,10 +420,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <Reveal delay={80}>
               <div className="overflow-hidden rounded-[4px]">
                 <Image
-                  src="/assets/rc-parks-6.webp"
-                  alt={t.gallery.entranceAlt}
-                  width={1280}
-                  height={720}
+                  src="/assets/rc-parks-interior.webp"
+                  alt={t.gallery.interiorAlt}
+                  width={3016}
+                  height={1692}
                   sizes="(max-width: 640px) 100vw, 50vw"
                   className="h-[320px] w-full object-cover"
                 />
@@ -426,10 +432,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <Reveal delay={140}>
               <div className="overflow-hidden rounded-[4px]">
                 <Image
-                  src="/assets/rc-parks-2.webp"
-                  alt={t.gallery.droneAlt}
-                  width={1600}
-                  height={900}
+                  src="/assets/rc-parks-oficinas.webp"
+                  alt={t.gallery.oficinasAlt}
+                  width={3016}
+                  height={1692}
                   sizes="(max-width: 640px) 100vw, 50vw"
                   className="h-[320px] w-full object-cover"
                 />
@@ -560,10 +566,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         >
           <div className="flex items-start gap-[22px]">
             <Image
-              src="/assets/logo-rc-blue.webp"
+              src="/assets/logo-rc-parks-blue-black.webp"
               alt="R.C. Parks"
-              width={1500}
-              height={1502}
+              width={256}
+              height={256}
               className="size-16 rounded-[4px]"
             />
             <p className="mt-0.5 max-w-[360px] text-[15px] leading-[1.55] text-white/55">

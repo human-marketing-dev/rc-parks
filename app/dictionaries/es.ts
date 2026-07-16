@@ -104,11 +104,11 @@ export const es = {
   gallery: {
     eyebrow: "03 — Galería",
     title: "Bodegas Triple A, listas para la operación de clase mundial.",
-    captionEyebrow: "Masterplan",
+    captionEyebrow: "Exterior",
     captionTitle: "Naves modulares con andenes y rampas neumáticas.",
-    aerialAlt: "Vista aérea del masterplan",
-    entranceAlt: "Acceso al parque",
-    droneAlt: "Avance de obra",
+    exteriorAlt: "Vista exterior de las naves con andenes",
+    interiorAlt: "Interior de una nave industrial",
+    oficinasAlt: "Sala de juntas en las oficinas",
   },
 
   location: {
