@@ -18,7 +18,7 @@ export const es = {
   hero: {
     eyebrow: "Parque Industrial · Ciénega de Flores, N.L.",
     title: "El futuro de la innovación industrial.",
-    lead: "Espacios Triple A diseñados para la nueva era de manufactura y almacenamiento inteligente. Redefiniendo la logística industrial del Noreste de México y Texas.",
+    lead: "Espacios Triple A diseñados para la nueva era de manufactura y almacenamiento inteligente. Redefiniendo la logística industrial del Noreste de México y Estados Unidos.",
     ctaPrimary: "Solicitar un espacio",
     ctaSecondary: "Ver ubicación",
     imageAlt: "Vista aérea del parque en Ciénega de Flores",

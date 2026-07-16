@@ -19,7 +19,7 @@ export const en: Dictionary = {
   hero: {
     eyebrow: "Industrial Park · Ciénega de Flores, N.L.",
     title: "The future of industrial innovation.",
-    lead: "Triple A spaces designed for the new era of smart manufacturing and warehousing. Redefining industrial logistics across Northeast Mexico and Texas.",
+    lead: "Triple A spaces designed for the new era of smart manufacturing and warehousing. Redefining industrial logistics across Northeast Mexico and the United States.",
     ctaPrimary: "Request a space",
     ctaSecondary: "See location",
     imageAlt: "Aerial view of the park in Ciénega de Flores",
