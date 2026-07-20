@@ -38,7 +38,7 @@ export const en: Dictionary = {
   ],
 
   stats: {
-    area: "m²",
+    area: "sq ft",
     power: "KWa installed",
     clean: "KW · Clean energy",
   },
@@ -163,7 +163,7 @@ export const en: Dictionary = {
       phone: "Phone",
       phonePlaceholder: "+52",
       message: "What space are you looking for?",
-      messagePlaceholder: "Required m², power, timeline...",
+      messagePlaceholder: "Required sq ft, power, timeline...",
       submit: "Send request",
       thanks: "Thank you!",
       thanksNamed: "Thank you, {name}!",

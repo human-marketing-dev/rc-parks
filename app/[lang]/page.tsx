@@ -5,7 +5,13 @@ import { LanguageSwitch } from "../components/language-switch";
 import { LocationTabs } from "../components/location-tabs";
 import { Reveal } from "../components/reveal";
 import { SocialLinks } from "../components/social-links";
-import { contactInfo, formatDistance, fronteras, stats } from "../content";
+import {
+  contactInfo,
+  formatArea,
+  formatDistance,
+  fronteras,
+  stats,
+} from "../content";
 import { getDictionary, isLocale, type Dictionary } from "../dictionaries";
 
 const SHELL = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
@@ -198,7 +204,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               <Reveal key={stat.id} delay={stat.delay} className="bg-ink">
                 <div className="px-6 py-10 md:px-[34px] md:py-[46px]">
                   <div className="text-[clamp(2.2rem,4vw,54px)] leading-none font-medium tracking-[-0.046em] whitespace-nowrap text-azure">
-                    {stat.value}
+                    {stat.m2 !== undefined
+                      ? formatArea(stat.m2, lang)
+                      : stat.value}
                   </div>
                   <div className="mt-3.5 text-[15px] leading-[1.4] text-white/60">
                     {t.stats[stat.id]}

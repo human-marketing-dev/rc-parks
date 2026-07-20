@@ -7,6 +7,7 @@
 import type { Locale } from "./dictionaries";
 
 const MILES_PER_KM = 0.621371;
+const SQFT_PER_M2 = 10.763910417;
 
 /**
  * Las distancias se guardan en km (número) y se formatean al vuelo: km en
@@ -23,11 +24,29 @@ export function formatDistance(km: number, locale: Locale): string {
     : `${miles.toFixed(1)} mi`;
 }
 
-export const stats = [
-  { id: "area", value: "67,000", delay: 0 },
+/**
+ * Superficies: se guardan en m² y se convierten a pies cuadrados en inglés.
+ * La unidad ("m²" / "sq ft") la pone el diccionario.
+ */
+export function formatArea(m2: number, locale: Locale): string {
+  const value = locale === "en" ? Math.round(m2 * SQFT_PER_M2) : m2;
+  return value.toLocaleString("en-US");
+}
+
+export type Stat = {
+  id: "area" | "power" | "clean";
+  delay: number;
+  /** Superficie en m²: se convierte a pies cuadrados en inglés. */
+  m2?: number;
+  /** Valor sin unidad métrica (KW): igual en ambos idiomas. */
+  value?: string;
+};
+
+export const stats: Stat[] = [
+  { id: "area", m2: 67000, delay: 0 },
   { id: "power", value: "2,400", delay: 90 },
   { id: "clean", value: "900", delay: 180 },
-] as const;
+];
 
 export const fronteras = [
   { id: "colombia", name: "Puente Colombia", km: 230 },
