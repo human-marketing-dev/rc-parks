@@ -4,7 +4,8 @@ import { ContactForm } from "../components/contact-form";
 import { LanguageSwitch } from "../components/language-switch";
 import { LocationTabs } from "../components/location-tabs";
 import { Reveal } from "../components/reveal";
-import { contactInfo, fronteras, stats } from "../content";
+import { SocialLinks } from "../components/social-links";
+import { contactInfo, formatDistance, fronteras, stats } from "../content";
 import { getDictionary, isLocale, type Dictionary } from "../dictionaries";
 
 const SHELL = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
@@ -475,7 +476,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                     </div>
                   </div>
                   <div className="text-[24px] font-medium tracking-[-1px] text-azure">
-                    {frontera.km}
+                    {formatDistance(frontera.km, lang)}
                   </div>
                 </div>
               ))}
@@ -486,17 +487,17 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <Reveal>
               <div className="overflow-hidden rounded-[4px] border border-stone bg-stone">
                 <Image
-                  src="/assets/map-infografia.png"
+                  src="/assets/mapa-rc-parks.webp"
                   alt={t.location.mapAlt}
-                  width={1200}
-                  height={1000}
+                  width={1599}
+                  height={1600}
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="h-auto w-full"
                 />
               </div>
             </Reveal>
             <Reveal delay={100}>
-              <LocationTabs dict={t.location} />
+              <LocationTabs dict={t.location} locale={lang} />
             </Reveal>
           </div>
         </div>
@@ -576,14 +577,17 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               {t.footer.tagline}
             </p>
           </div>
-          <div className="sm:text-right">
-            <a
-              href={`mailto:${contactInfo.email}`}
-              className="text-[17px] font-medium transition-colors hover:text-azure"
-            >
-              {contactInfo.email}
-            </a>
-            <p className="mt-2 text-sm text-white/45">{contactInfo.site}</p>
+          <div className="flex flex-col gap-5 sm:items-end sm:text-right">
+            <div>
+              <a
+                href={`mailto:${contactInfo.email}`}
+                className="text-[17px] font-medium transition-colors hover:text-azure"
+              >
+                {contactInfo.email}
+              </a>
+              <p className="mt-2 text-sm text-white/45">{contactInfo.site}</p>
+            </div>
+            <SocialLinks label={t.footer.social} />
           </div>
         </div>
         <div

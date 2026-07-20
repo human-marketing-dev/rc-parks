@@ -176,6 +176,7 @@ export const en: Dictionary = {
     tagline:
       "Redefining industrial logistics across Northeast Mexico and Texas. Triple A spaces for the new era of manufacturing.",
     rights: "© 2026 R.C. Parks. All rights reserved.",
+    social: "Social media",
   },
 
   languageSwitch: {

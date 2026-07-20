@@ -1,12 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { locationGroups } from "../content";
-import type { Dictionary } from "../dictionaries";
+import { formatDistance, locationGroups } from "../content";
+import type { Dictionary, Locale } from "../dictionaries";
 
 type LocationDict = Dictionary["location"];
 
-export function LocationTabs({ dict }: { dict: LocationDict }) {
+export function LocationTabs({
+  dict,
+  locale,
+}: {
+  dict: LocationDict;
+  locale: Locale;
+}) {
   const [active, setActive] = useState(locationGroups[0].id);
   const group =
     locationGroups.find((g) => g.id === active) ?? locationGroups[0];
@@ -41,7 +47,12 @@ export function LocationTabs({ dict }: { dict: LocationDict }) {
 
       <div className="flex flex-col">
         {group.items.map((item) => {
-          const distance = item.km ?? (item.direct ? dict.direct : null);
+          const distance =
+            item.km !== undefined
+              ? formatDistance(item.km, locale)
+              : item.direct
+                ? dict.direct
+                : null;
           return (
             <div
               key={item.id}

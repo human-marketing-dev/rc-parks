@@ -177,6 +177,7 @@ export const es = {
     tagline:
       "Redefiniendo la logística industrial del Noreste de México y Texas. Espacios Triple A para la nueva era de manufactura.",
     rights: "© 2026 R.C. Parks. Todos los derechos reservados.",
+    social: "Redes sociales",
   },
 
   languageSwitch: {
