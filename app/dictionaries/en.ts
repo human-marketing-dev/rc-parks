@@ -154,8 +154,10 @@ export const en: Dictionary = {
     addressLine1: "Ciénega de Flores 405, Predio No. 23,",
     addressLine2: "Zona Norte, N.L. Mexico",
     form: {
-      name: "Full name",
-      namePlaceholder: "Your name",
+      name: "First name",
+      namePlaceholder: "Your first name",
+      lastName: "Last name",
+      lastNamePlaceholder: "Your last name",
       company: "Company",
       companyPlaceholder: "Your company name",
       email: "Email",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../globals.css";
+import { AttributionTracker } from "../components/attribution-tracker";
 import { getDictionary, isLocale, locales, defaultLocale } from "../dictionaries";
 
 export function generateStaticParams() {
@@ -30,7 +31,10 @@ export default async function RootLayout({
 
   return (
     <html lang={lang} className="h-full antialiased">
-      <body className="flex min-h-full flex-col font-sans">{children}</body>
+      <body className="flex min-h-full flex-col font-sans">
+        <AttributionTracker />
+        {children}
+      </body>
     </html>
   );
 }

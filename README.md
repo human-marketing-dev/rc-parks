@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# R.C. Parks — Landing
 
-## Getting Started
+Sitio de una sola página, bilingüe (español / inglés), para **R.C. Parks**, un
+parque industrial en Ciénega de Flores, Nuevo León, México. Bodegas Triple A para
+manufactura y almacenamiento en el corredor Monterrey–Texas.
 
-First, run the development server:
+Cada idioma se pre-genera como HTML estático; la única ruta dinámica es el
+endpoint del formulario de contacto.
+
+## Stack
+
+- **Next.js 16.2** (App Router, Turbopack)
+- **React 19.2**
+- **TypeScript 5** (modo estricto)
+- **Tailwind CSS v4** (configuración CSS-first con `@theme`, sin `tailwind.config.js`)
+- **Brevo** (correo transaccional) y **GoHighLevel** (CRM vía webhook) para el
+  formulario de contacto
+
+> ⚠️ Esta es una versión de Next.js con breaking changes respecto a versiones
+> previas (p. ej. el middleware vive en `proxy.ts`). Ver [`AGENTS.md`](AGENTS.md).
+
+## Requisitos
+
+- Node.js 20+
+- npm
+
+## Puesta en marcha
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000). La raíz redirige a `/es` o
+`/en` según el idioma del navegador (español por defecto).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Comando | Qué hace |
+| --- | --- |
+| `npm run dev` | Servidor de desarrollo (Turbopack). |
+| `npm run build` | Build de producción (también verifica tipos). |
+| `npm run start` | Sirve el build de producción. |
+| `npm run lint` | ESLint (next core-web-vitals + typescript). |
 
-## Learn More
+## Variables de entorno
 
-To learn more about Next.js, take a look at the following resources:
+El formulario de contacto necesita estas variables (en Vercel o en un `.env`
+local; los `.env*` están en `.gitignore`). Detalle completo en
+[`docs/ghl-webhook.md`](docs/ghl-webhook.md).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Variable | Requerida | Descripción |
+| --- | --- | --- |
+| `BREVO_API_KEY` | Sí | API key de Brevo. |
+| `BREVO_SENDER_EMAIL` | Sí | Remitente verificado en Brevo. |
+| `CONTACT_TO_EMAIL` | Sí | Destinatario interno de las solicitudes. |
+| `GHL_WEBHOOK_URL` | Sí* | Webhook de la automatización de GoHighLevel. |
+| `GHL_WEBHOOK_SECRET` | Sí* | Secreto compartido que valida el workflow de GHL. |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+\* Sin ellas el sitio funciona igual, pero solo manda el correo por Brevo (no
+reenvía el lead al CRM).
 
-## Deploy on Vercel
+## Estructura
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+proxy.ts                 Redirección de idioma (middleware de Next 16)
+app/
+  [lang]/
+    layout.tsx           Layout raíz + metadata + tracker de atribución
+    page.tsx             La landing completa (todas las secciones)
+  api/contact/route.ts   Endpoint del formulario → Brevo + GoHighLevel
+  components/            UI (form, tabs de ubicación, reveal, redes, etc.)
+  content.ts             Datos duros (cifras, distancias, contacto) + formatos
+  dictionaries/          Textos i18n (es = fuente de la verdad, en debe calzar)
+  lib/attribution.ts     Captura de atribución de marketing (first/last touch)
+  globals.css            Tokens de tema y animaciones (Tailwind v4)
+public/assets/           Imágenes, video del hero, logos
+docs/ghl-webhook.md      Integración de contacto (payload, mapeo, seguridad)
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Internacionalización
+
+- Los idiomas activos se definen en `app/dictionaries/index.ts` (`locales`).
+- **`es.ts` es la fuente de la verdad**: define el tipo `Dictionary`. `en.ts` está
+  tipado como `Dictionary`, así que si falta una llave, el build falla.
+- Las cifras (superficies, distancias) viven una sola vez en `content.ts` y se
+  formatean por idioma (km↔millas, m²↔sq ft); los diccionarios solo traducen
+  textos y unidades.
+
+Para agregar un idioma: añádelo a `locales`, crea su archivo de diccionario, y
+`proxy.ts` + `generateStaticParams` lo toman automáticamente.
+
+## Deploy
+
+Pensado para **Vercel**. Configura las variables de entorno en el proyecto y
+haz deploy desde la rama principal. El historial de cambios está en
+[`CHANGELOG.md`](CHANGELOG.md).
