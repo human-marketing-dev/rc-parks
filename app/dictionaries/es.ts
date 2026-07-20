@@ -154,8 +154,10 @@ export const es = {
     addressLine1: "Ciénega de Flores 405, Predio No. 23,",
     addressLine2: "Zona Norte, N.L. México",
     form: {
-      name: "Nombre completo",
+      name: "Nombre",
       namePlaceholder: "Tu nombre",
+      lastName: "Apellido",
+      lastNamePlaceholder: "Tu apellido",
       company: "Empresa",
       companyPlaceholder: "Nombre de tu empresa",
       email: "Email",

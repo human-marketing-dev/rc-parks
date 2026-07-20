@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import type { Dictionary } from "../dictionaries";
+import type { Dictionary, Locale } from "../dictionaries";
+import { getAttributionPayload } from "../lib/attribution";
 
 const fieldClass =
   "border-b border-field bg-transparent py-2.5 text-[16px] outline-none transition-colors focus:border-azure";
@@ -10,8 +11,10 @@ type Status = "idle" | "sending" | "error";
 
 export function ContactForm({
   dict,
+  locale,
 }: {
   dict: Dictionary["contact"]["form"];
+  locale: Locale;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [sentName, setSentName] = useState<string | null>(null);
@@ -28,11 +31,15 @@ export function ContactForm({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           nombre: data.get("nombre"),
+          apellido: data.get("apellido"),
           empresa: data.get("empresa"),
           email: data.get("email"),
           telefono: data.get("telefono"),
           mensaje: data.get("mensaje"),
           website: data.get("website"),
+          locale,
+          // Atribución de marketing capturada a nivel de sitio (first/last touch).
+          ...getAttributionPayload(),
         }),
       });
 
@@ -85,18 +92,33 @@ export function ContactForm({
           />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="nombre" className="text-[13px] text-ink/55">
-            {dict.name}
-          </label>
-          <input
-            id="nombre"
-            name="nombre"
-            required
-            maxLength={120}
-            placeholder={dict.namePlaceholder}
-            className={fieldClass}
-          />
+        <div className="grid gap-[22px] sm:grid-cols-2">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="nombre" className="text-[13px] text-ink/55">
+              {dict.name}
+            </label>
+            <input
+              id="nombre"
+              name="nombre"
+              required
+              maxLength={120}
+              placeholder={dict.namePlaceholder}
+              className={fieldClass}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="apellido" className="text-[13px] text-ink/55">
+              {dict.lastName}
+            </label>
+            <input
+              id="apellido"
+              name="apellido"
+              required
+              maxLength={120}
+              placeholder={dict.lastNamePlaceholder}
+              className={fieldClass}
+            />
+          </div>
         </div>
 
         <div className="flex flex-col gap-2">

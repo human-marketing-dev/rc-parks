@@ -563,7 +563,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           </Reveal>
 
           <Reveal delay={100}>
-            <ContactForm dict={t.contact.form} />
+            <ContactForm dict={t.contact.form} locale={lang} />
           </Reveal>
         </div>
       </section>
