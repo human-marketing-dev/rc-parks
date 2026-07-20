@@ -13,17 +13,25 @@ anti-bot se descarta antes de ambos envíos (los bots no entran al CRM).
 
 ## Variables de entorno
 
-| Variable             | Requerida | Descripción                                                        |
-| -------------------- | --------- | ------------------------------------------------------------------ |
-| `BREVO_API_KEY`      | Sí        | API key de Brevo para el correo transaccional.                     |
-| `BREVO_SENDER_EMAIL` | Sí        | Remitente verificado en Brevo.                                     |
-| `CONTACT_TO_EMAIL`   | Sí        | Destinatario interno de las solicitudes.                           |
-| `GHL_WEBHOOK_URL`    | No        | Webhook de GHL. Si se omite, usa el de producción (hardcodeado).   |
+| Variable             | Requerida | Descripción                                                                  |
+| -------------------- | --------- | ---------------------------------------------------------------------------- |
+| `BREVO_API_KEY`      | Sí        | API key de Brevo para el correo transaccional.                               |
+| `BREVO_SENDER_EMAIL` | Sí        | Remitente verificado en Brevo.                                               |
+| `CONTACT_TO_EMAIL`   | Sí        | Destinatario interno de las solicitudes.                                     |
+| `GHL_WEBHOOK_URL`    | Sí\*      | Webhook de GHL. **Sin default**: si falta, el reenvío al CRM se omite.       |
+| `GHL_WEBHOOK_SECRET` | Sí\*      | Secreto compartido que viaja en el payload (`token`) y valida el workflow.   |
+
+\* Requeridas para que funcione el reenvío al CRM. Sin ellas el sitio sigue
+operando (solo manda el correo por Brevo). **No se commitean**: van en las
+variables de entorno del deploy (Vercel).
 
 ## Estructura del payload enviado a GHL
 
 ```jsonc
 {
+  // Secreto compartido: el workflow descarta el request si no coincide.
+  "token": "•••• (GHL_WEBHOOK_SECRET)",
+
   // Datos de contacto (mapear a campos nativos del contacto)
   "firstName": "Ana",
   "lastName": "López",
@@ -74,13 +82,16 @@ anti-bot se descarta antes de ambos envíos (los bots no entran al CRM).
 
 ## Cómo mapear en la automatización de GHL
 
-1. En el workflow con el trigger **Inbound Webhook**, abre el mapeo de campos
-   (ya recibió una petición de prueba con esta estructura exacta, así que las
-   llaves aparecen disponibles).
-2. Mapea los datos de contacto a los campos nativos:
+1. **Valida el secreto primero.** Como primer paso del workflow, añade un
+   **If/Else** que compare `inboundWebhookRequest.token` con el valor de
+   `GHL_WEBHOOK_SECRET`. Si no coincide, termina el workflow: así un POST directo
+   a la URL (que es pública) sin el token se descarta.
+2. Abre el mapeo de campos (ya recibió una petición de prueba con esta
+   estructura exacta, así que las llaves aparecen disponibles).
+3. Mapea los datos de contacto a los campos nativos:
    `firstName → First Name`, `lastName → Last Name`, `email → Email`,
    `phone → Phone`, `company → Company Name`.
-3. Para la atribución, crea **custom fields** y mapéalos:
+4. Para la atribución, crea **custom fields** y mapéalos:
    `lastAttribution.utmSource`, `lastAttribution.utmMedium`,
    `lastAttribution.utmCampaign`, `attribution.utmSource`, etc.
 
@@ -99,6 +110,28 @@ Si además quieres poblar los campos **nativos**, hay que instalar el _script de
 tracking oficial de GHL_ en el sitio (requiere el snippet/Location ID de la
 cuenta). Queda como mejora opcional; avísame y lo dejo listo detrás de una
 variable de entorno.
+
+## Seguridad
+
+El reenvío es server-side, así que la URL del webhook **no se expone en el
+navegador**. Encima de eso:
+
+- **URL y secreto solo en entorno** (`GHL_WEBHOOK_URL`, `GHL_WEBHOOK_SECRET`):
+  nada hardcodeado, porque el repo es público.
+- **Secreto compartido validado en el workflow**: aunque alguien descubra la URL
+  (GHL no autentica sus inbound webhooks), un POST directo sin el `token` se
+  descarta en el primer paso del workflow.
+- **Chequeo de Origin en `/api/contact`**: se rechaza (`403`) un envío que venga
+  claramente de otro origen. Es defensa en profundidad —un atacante con `curl`
+  puede omitir el header—, no una barrera dura.
+- **Honeypot + validación + topes de longitud** en el servidor (ya existían).
+
+### Pendiente / mejora recomendada
+
+`/api/contact` es un endpoint público sin **rate limiting** ni **CAPTCHA**. Para
+un formulario de leads lo recomendado es añadir **Cloudflare Turnstile** (gratis,
+sin fricción) y un límite por IP. Requiere cuentas externas (Turnstile, y
+Upstash o el WAF de Vercel para el rate limit); queda como siguiente paso.
 
 ## Captura de atribución en el sitio
 

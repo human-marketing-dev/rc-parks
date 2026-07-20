@@ -3,13 +3,15 @@ import type { NextRequest } from "next/server";
 const BREVO_ENDPOINT = "https://api.brevo.com/v3/smtp/email";
 
 /**
- * Webhook de la automatización de GoHighLevel. No es un secreto (es un endpoint
- * de entrada público), pero se deja configurable por entorno para poder apuntar
- * a un workflow de pruebas sin tocar código.
+ * Webhook de la automatización de GoHighLevel y su secreto compartido. Ambos
+ * viven SOLO en variables de entorno: el repo es público, así que la URL no
+ * puede quedar hardcodeada. GHL no autentica sus inbound webhooks, así que el
+ * `GHL_WEBHOOK_SECRET` viaja en el payload y el primer paso del workflow lo
+ * valida: un POST directo a la URL (aunque la conozcan) sin el token se
+ * descarta.
  */
-const GHL_WEBHOOK_URL =
-  process.env.GHL_WEBHOOK_URL ??
-  "https://services.leadconnectorhq.com/hooks/khKuzDdBSr0TEwQ1mXtL/webhook-trigger/0ec1fef7-2389-467f-ad30-a55dced8b95e";
+const GHL_WEBHOOK_URL = process.env.GHL_WEBHOOK_URL;
+const GHL_WEBHOOK_SECRET = process.env.GHL_WEBHOOK_SECRET;
 
 /** Topes de longitud: cortan payloads absurdos antes de llegar a Brevo. */
 const LIMITS = {
@@ -103,6 +105,13 @@ function pickStrings(
  * serverless una promesa sin await se cancela al enviar la respuesta).
  */
 async function sendToGhl(payload: unknown): Promise<void> {
+  if (!GHL_WEBHOOK_URL) {
+    console.error(
+      "[contact] GHL_WEBHOOK_URL no configurada: se omite el reenvío al CRM.",
+    );
+    return;
+  }
+
   try {
     const res = await fetch(GHL_WEBHOOK_URL, {
       method: "POST",
@@ -119,7 +128,34 @@ async function sendToGhl(payload: unknown): Promise<void> {
   }
 }
 
+/**
+ * Rechaza envíos que claramente vienen de otro origen (un formulario ajeno
+ * apuntando a nuestra API). Es defensa en profundidad, no una barrera dura: un
+ * atacante con curl puede omitir estos headers. Por eso solo bloqueamos ante un
+ * desajuste positivo y no castigamos a quien no manda Origin ni Referer, para
+ * no perder leads legítimos detrás de herramientas de privacidad.
+ */
+function isCrossOrigin(request: NextRequest): boolean {
+  const host = request.headers.get("host");
+  if (!host) return false;
+
+  const source =
+    request.headers.get("origin") ?? request.headers.get("referer");
+  if (!source) return false;
+
+  try {
+    return new URL(source).host !== host;
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(request: NextRequest) {
+  // 0) Cross-origin evidente: se corta antes de hacer cualquier trabajo.
+  if (isCrossOrigin(request)) {
+    return Response.json({ ok: false }, { status: 403 });
+  }
+
   // 1) Body malformado: 400, nunca reventar con 500.
   let body: unknown;
   try {
@@ -176,6 +212,9 @@ export async function POST(request: NextRequest) {
   //    independiente de que Brevo esté configurado: el lead no se pierde aunque
   //    el correo falle. Las llaves usan nombres mapeables 1:1 en el workflow.
   const ghlSend = sendToGhl({
+    // Secreto compartido: el workflow descarta lo que no lo traiga. Si no está
+    // configurado, JSON.stringify lo omite (queda `undefined`).
+    token: GHL_WEBHOOK_SECRET,
     firstName: nombre,
     lastName: apellido,
     name: nombreCompleto,
