@@ -165,6 +165,8 @@ export const en: Dictionary = {
       message: "What space are you looking for?",
       messagePlaceholder: "Required sq ft, power, timeline...",
       submit: "Send request",
+      sending: "Sending…",
+      error: "We couldn't send your request. Please try again in a moment.",
       thanks: "Thank you!",
       thanksNamed: "Thank you, {name}!",
       thanksBody:

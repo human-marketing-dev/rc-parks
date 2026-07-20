@@ -34,6 +34,8 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Deja pasar assets y archivos internos; solo redirige rutas de página.
-  matcher: ["/((?!_next|assets|favicon.ico|.*\\.).*)"],
+  // Deja pasar API, assets y archivos internos; solo redirige rutas de página.
+  // `api` es imprescindible: sin él, /api/contact se redirige a /es/api/contact
+  // y el endpoint deja de responder.
+  matcher: ["/((?!api|_next|assets|favicon.ico|.*\\.).*)"],
 };

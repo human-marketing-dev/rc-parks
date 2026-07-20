@@ -165,6 +165,9 @@ export const es = {
       message: "¿Qué espacio buscas?",
       messagePlaceholder: "m² requeridos, energía, fechas...",
       submit: "Enviar solicitud",
+      sending: "Enviando…",
+      error:
+        "No pudimos enviar tu solicitud. Por favor inténtalo de nuevo en unos momentos.",
       thanks: "¡Gracias!",
       /** {name} se reemplaza con el primer nombre de quien envía. */
       thanksNamed: "¡Gracias, {name}!",
