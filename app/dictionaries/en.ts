@@ -188,4 +188,16 @@ export const en: Dictionary = {
     toEnglish: "View the site in English",
     toSpanish: "View the site in Spanish",
   },
+
+  whatsapp: {
+    floatingLabel: "Message us on WhatsApp",
+    title: "R.C. Parks",
+    description: "Online",
+    greeting:
+      "Hi! 👋 Looking for industrial space at R.C. Parks? Message us and we'll gladly help.",
+    defaultMessage:
+      "Hi, I'd like to learn more about the available spaces at R.C. Parks.",
+    open: "Open WhatsApp",
+    close: "Close",
+  },
 };

@@ -190,6 +190,18 @@ export const es = {
     toEnglish: "Ver el sitio en inglés",
     toSpanish: "Ver el sitio en español",
   },
+
+  whatsapp: {
+    floatingLabel: "Escríbenos por WhatsApp",
+    title: "R.C. Parks",
+    description: "En línea",
+    greeting:
+      "¡Hola! 👋 ¿Buscas espacio industrial en R.C. Parks? Escríbenos y con gusto te ayudamos.",
+    defaultMessage:
+      "Hola, me interesa conocer más sobre los espacios disponibles en R.C. Parks.",
+    open: "Abrir WhatsApp",
+    close: "Cerrar",
+  },
 };
 
 /** El español define la forma: si al inglés le falta una llave, TypeScript avisa. */

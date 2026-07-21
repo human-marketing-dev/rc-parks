@@ -56,6 +56,7 @@ local; los `.env*` están en `.gitignore`). Detalle completo en
 | `CONTACT_TO_EMAIL` | Sí | Destinatario interno de las solicitudes. |
 | `GHL_WEBHOOK_URL` | Sí* | Webhook de la automatización de GoHighLevel. |
 | `GHL_WEBHOOK_SECRET` | Sí* | Secreto compartido que valida el workflow de GHL. |
+| `NEXT_PUBLIC_GTM_ID` | No | Contenedor de Google Tag Manager (default: `GTM-TCKKHZ2T`). |
 
 \* Sin ellas el sitio funciona igual, pero solo manda el correo por Brevo (no
 reenvía el lead al CRM).
@@ -73,9 +74,11 @@ app/
   content.ts             Datos duros (cifras, distancias, contacto) + formatos
   dictionaries/          Textos i18n (es = fuente de la verdad, en debe calzar)
   lib/attribution.ts     Captura de atribución de marketing (first/last touch)
+  lib/analytics.ts       Capa de medición: dataLayer + eventos (GTM)
   globals.css            Tokens de tema y animaciones (Tailwind v4)
 public/assets/           Imágenes, video del hero, logos
 docs/ghl-webhook.md      Integración de contacto (payload, mapeo, seguridad)
+docs/analytics.md        Medición: GTM, eventos y conversiones
 ```
 
 ## Internacionalización

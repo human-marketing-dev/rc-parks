@@ -20,8 +20,16 @@ Trabajo en la rama `feat/webhook-ghl-atribucion` (todavía no fusionado a `main`
   en el layout).
 - Reenvío del lead + atribución al **webhook de GoHighLevel** desde
   `/api/contact`, en paralelo al correo (best-effort).
-- Documentación: [`docs/ghl-webhook.md`](docs/ghl-webhook.md) (contrato del
-  payload y mapeo en GHL), `AGENTS.md`, `README.md` y este `CHANGELOG.md`.
+- **Entorno de medición con Google Tag Manager** (`GTM-TCKKHZ2T`) a nivel de todo
+  el sitio, con el `dataLayer` centralizado en `app/lib/analytics.ts`.
+- Evento **`generate_lead`** al enviar el formulario, con datos del usuario (UPD)
+  para conversiones mejoradas (Enhanced Conversions).
+- Evento **`whatsapp_click`** con un **panel tipo chat de WhatsApp** anclado abajo
+  a la derecha (mensaje de bienvenida + botón flotante que aparece tras 5 s); el
+  evento se emite en el clic final, no al abrir.
+- Documentación: [`docs/ghl-webhook.md`](docs/ghl-webhook.md),
+  [`docs/analytics.md`](docs/analytics.md), `AGENTS.md`, `README.md` y este
+  `CHANGELOG.md`.
 
 ### Seguridad
 

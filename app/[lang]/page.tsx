@@ -5,6 +5,7 @@ import { LanguageSwitch } from "../components/language-switch";
 import { LocationTabs } from "../components/location-tabs";
 import { Reveal } from "../components/reveal";
 import { SocialLinks } from "../components/social-links";
+import { WhatsAppTrigger } from "../components/whatsapp-provider";
 import {
   contactInfo,
   formatArea,
@@ -538,8 +539,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                   {contactInfo.email}
                 </span>
               </a>
-              <a
-                href={contactInfo.whatsapp}
+              <WhatsAppTrigger
+                location="contact_section"
                 className="flex flex-col gap-1.5 transition-colors hover:text-azure"
               >
                 <span className="text-xs tracking-[1.5px] text-white/40 uppercase">
@@ -548,7 +549,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 <span className="text-[20px] font-medium">
                   {contactInfo.phone}
                 </span>
-              </a>
+              </WhatsAppTrigger>
               <div className="flex flex-col gap-1.5">
                 <span className="text-xs tracking-[1.5px] text-white/40 uppercase">
                   {t.contact.addressLabel}
