@@ -128,34 +128,7 @@ async function sendToGhl(payload: unknown): Promise<void> {
   }
 }
 
-/**
- * Rechaza envíos que claramente vienen de otro origen (un formulario ajeno
- * apuntando a nuestra API). Es defensa en profundidad, no una barrera dura: un
- * atacante con curl puede omitir estos headers. Por eso solo bloqueamos ante un
- * desajuste positivo y no castigamos a quien no manda Origin ni Referer, para
- * no perder leads legítimos detrás de herramientas de privacidad.
- */
-function isCrossOrigin(request: NextRequest): boolean {
-  const host = request.headers.get("host");
-  if (!host) return false;
-
-  const source =
-    request.headers.get("origin") ?? request.headers.get("referer");
-  if (!source) return false;
-
-  try {
-    return new URL(source).host !== host;
-  } catch {
-    return false;
-  }
-}
-
 export async function POST(request: NextRequest) {
-  // 0) Cross-origin evidente: se corta antes de hacer cualquier trabajo.
-  if (isCrossOrigin(request)) {
-    return Response.json({ ok: false }, { status: 403 });
-  }
-
   // 1) Body malformado: 400, nunca reventar con 500.
   let body: unknown;
   try {

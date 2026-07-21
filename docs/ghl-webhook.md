@@ -121,10 +121,12 @@ navegador**. Encima de eso:
 - **Secreto compartido validado en el workflow**: aunque alguien descubra la URL
   (GHL no autentica sus inbound webhooks), un POST directo sin el `token` se
   descarta en el primer paso del workflow.
-- **Chequeo de Origin en `/api/contact`**: se rechaza (`403`) un envío que venga
-  claramente de otro origen. Es defensa en profundidad —un atacante con `curl`
-  puede omitir el header—, no una barrera dura.
 - **Honeypot + validación + topes de longitud** en el servidor (ya existían).
+
+> Nota: se probó un chequeo de `Origin` en `/api/contact`, pero detrás del
+> hosting (www/apex/proxy) el header `Host` no siempre coincide con el `Origin` y
+> rechazaba envíos legítimos con `403`. Se removió; la protección real contra
+> abuso automatizado es rate limiting + CAPTCHA (ver pendientes).
 
 ### Pendiente / mejora recomendada
 
