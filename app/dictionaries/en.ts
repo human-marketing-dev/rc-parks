@@ -191,9 +191,10 @@ export const en: Dictionary = {
 
   whatsapp: {
     floatingLabel: "Message us on WhatsApp",
-    title: "Message us on WhatsApp",
-    description: "Write your message and we'll take you straight to the chat.",
-    messageLabel: "Message",
+    title: "R.C. Parks",
+    description: "Online",
+    greeting:
+      "Hi! 👋 Looking for industrial space at R.C. Parks? Message us and we'll gladly help.",
     defaultMessage:
       "Hi, I'd like to learn more about the available spaces at R.C. Parks.",
     open: "Open WhatsApp",

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   createContext,
   useCallback,
@@ -56,11 +57,10 @@ export function useWhatsApp(): WhatsAppContextValue {
 }
 
 /**
- * Provee el modal de WhatsApp a todo el sitio: un único modal + botón flotante,
- * y una función `open(location)` para que cualquier disparador (el número de
- * contacto, el flotante…) lo abra. El clic en el botón final del modal es el que
- * emite `whatsapp_click` — por eso el evento representa intención real, no un
- * roce accidental sobre el número.
+ * Provee el widget de WhatsApp a todo el sitio: un panel tipo chat anclado abajo
+ * a la derecha (NO un modal a pantalla completa) + un botón flotante que aparece
+ * tras unos segundos. El clic en el botón final del panel es el que emite
+ * `whatsapp_click`, de modo que el evento representa intención real.
  */
 export function WhatsAppProvider({
   dict,
@@ -74,23 +74,31 @@ export function WhatsAppProvider({
   showFloating?: boolean;
 }) {
   const [location, setLocation] = useState<string | null>(null);
+  const [fabReady, setFabReady] = useState(false);
 
   const open = useCallback((from: string) => setLocation(from), []);
   const close = useCallback(() => setLocation(null), []);
+  const toggle = useCallback(
+    () => setLocation((current) => (current ? null : "floating_button")),
+    [],
+  );
+
+  // El botón flotante entra tras 5 s: deja respirar el primer vistazo del hero.
+  useEffect(() => {
+    const timer = setTimeout(() => setFabReady(true), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const directHref = waLink(number, dict.defaultMessage);
 
   return (
     <WhatsAppContext.Provider value={{ open, directHref }}>
       {children}
-      {showFloating ? (
-        <FloatingButton
-          label={dict.floatingLabel}
-          onClick={() => open("floating_button")}
-        />
+      {showFloating && fabReady ? (
+        <FloatingButton label={dict.floatingLabel} onClick={toggle} />
       ) : null}
       {location !== null ? (
-        <WhatsAppModal
+        <WhatsAppPanel
           dict={dict}
           number={number}
           location={location}
@@ -102,9 +110,9 @@ export function WhatsAppProvider({
 }
 
 /**
- * Envuelve cualquier contenido para que, al hacer clic, abra el modal. Renderiza
+ * Envuelve cualquier contenido para que, al hacer clic, abra el panel. Renderiza
  * un `<a href>` real al WhatsApp directo: sin JS lleva a la conversación; con JS
- * intercepta y abre el modal (progressive enhancement).
+ * intercepta y abre el panel (progressive enhancement).
  */
 export function WhatsAppTrigger({
   location,
@@ -140,16 +148,17 @@ function FloatingButton({
   return (
     <button
       type="button"
+      data-wa-fab
       onClick={onClick}
       aria-label={label}
-      className="fixed right-5 bottom-5 z-[60] flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/25 transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366] md:right-7 md:bottom-7"
+      className="wa-fab fixed right-5 bottom-5 z-[60] flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/25 transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366] md:right-7 md:bottom-7"
     >
       <WhatsAppGlyph className="size-7" />
     </button>
   );
 }
 
-function WhatsAppModal({
+function WhatsAppPanel({
   dict,
   number,
   location,
@@ -160,21 +169,29 @@ function WhatsAppModal({
   location: string;
   onClose: () => void;
 }) {
-  const [message, setMessage] = useState(dict.defaultMessage);
+  const panelRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
 
-  // Escape cierra, se bloquea el scroll del fondo y el foco entra al CTA.
+  // Cierra con Escape o al hacer clic fuera. No bloquea el scroll ni la página:
+  // es un widget, no un modal.
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
+    const onDown = (event: MouseEvent) => {
+      const target = event.target as Node | null;
+      if (!target) return;
+      if (panelRef.current?.contains(target)) return;
+      // Un clic en el botón flotante lo maneja su propio toggle.
+      if (target instanceof Element && target.closest("[data-wa-fab]")) return;
+      onClose();
+    };
     window.addEventListener("keydown", onKey);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    document.addEventListener("mousedown", onDown);
     ctaRef.current?.focus();
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("mousedown", onDown);
     };
   }, [onClose]);
 
@@ -186,73 +203,63 @@ function WhatsAppModal({
 
   return (
     <div
-      className="wa-overlay fixed inset-0 z-[70] flex items-end justify-center bg-ink/70 p-4 backdrop-blur-sm sm:items-center"
-      onClick={onClose}
-      role="presentation"
+      ref={panelRef}
+      role="dialog"
+      aria-labelledby="wa-title"
+      className="wa-card fixed right-5 bottom-24 z-[65] w-[calc(100vw-2.5rem)] max-w-[330px] overflow-hidden rounded-[14px] bg-white shadow-2xl shadow-black/30 md:right-7 md:bottom-28"
     >
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="wa-title"
-        className="wa-card w-full max-w-[420px] rounded-[6px] bg-white p-6 text-ink shadow-2xl sm:p-7"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <span className="flex size-10 flex-none items-center justify-center rounded-full bg-[#25D366] text-white">
-              <WhatsAppGlyph className="size-5" />
-            </span>
-            <h2
-              id="wa-title"
-              className="text-[19px] font-medium tracking-[-0.3px]"
-            >
-              {dict.title}
-            </h2>
+      <div className="flex items-center gap-3 bg-[#128C7E] px-4 py-3 text-white">
+        <span className="size-9 flex-none overflow-hidden rounded-full bg-white/15">
+          <Image
+            src="/assets/logo-rc-parks-blue-black.webp"
+            alt=""
+            width={36}
+            height={36}
+            className="size-full object-cover"
+          />
+        </span>
+        <div className="min-w-0 flex-1 leading-tight">
+          <div id="wa-title" className="text-[15px] font-medium">
+            {dict.title}
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label={dict.close}
-            className="-mt-1 -mr-1 flex size-8 flex-none items-center justify-center rounded-full text-ink/40 transition-colors hover:bg-ink/5 hover:text-ink"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              className="size-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden="true"
-            >
-              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-1.5 text-[12px] text-white/75">
+            <span className="size-1.5 rounded-full bg-[#4ade80]" />
+            {dict.description}
+          </div>
         </div>
-
-        <p className="mt-3 text-[14px] leading-[1.5] text-ink/60">
-          {dict.description}
-        </p>
-
-        <label
-          htmlFor="wa-message"
-          className="mt-5 block text-[13px] text-ink/55"
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label={dict.close}
+          className="-mr-1 flex size-7 flex-none items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/15 hover:text-white"
         >
-          {dict.messageLabel}
-        </label>
-        <textarea
-          id="wa-message"
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
-          rows={3}
-          className="mt-2 w-full resize-none rounded-[3px] border border-field bg-transparent p-3 text-[15px] outline-none transition-colors focus:border-[#25D366]"
-        />
+          <svg
+            viewBox="0 0 24 24"
+            className="size-[18px]"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
+          >
+            <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
 
+      <div className="bg-[#ece5dd] px-3.5 py-4">
+        <div className="max-w-[92%] rounded-[10px] rounded-tl-[3px] bg-white px-3.5 py-2.5 text-[13.5px] leading-[1.5] text-ink/80 shadow-sm">
+          {dict.greeting}
+        </div>
+      </div>
+
+      <div className="bg-white p-3">
         <a
           ref={ctaRef}
-          href={waLink(number, message)}
+          href={waLink(number, dict.defaultMessage)}
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleOpen}
-          className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-[3px] bg-[#25D366] p-[15px] text-[16px] font-medium text-white transition-colors hover:bg-[#1ebe5a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+          className="flex w-full items-center justify-center gap-2.5 rounded-[9px] bg-[#25D366] p-[13px] text-[15px] font-medium text-white transition-colors hover:bg-[#1ebe5a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
         >
           <WhatsAppGlyph className="size-[18px]" />
           {dict.open}

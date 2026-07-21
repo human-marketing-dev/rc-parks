@@ -76,28 +76,32 @@ body {
   transform: none;
 }
 
-/* Entrada del modal de WhatsApp. */
-.wa-overlay {
-  animation: wa-fade 0.2s ease both;
-}
-
+/* Panel flotante de WhatsApp (widget de chat anclado abajo a la derecha). */
 .wa-card {
-  animation: wa-pop 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  transform-origin: bottom right;
+  animation: wa-pop 0.24s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-@keyframes wa-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+/* El botón flotante entra con un pop suave (tras su retardo de 5 s). */
+.wa-fab {
+  animation: wa-fab-in 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 @keyframes wa-pop {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.98);
+    transform: translateY(10px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes wa-fab-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
   }
   to {
     opacity: 1;
@@ -113,8 +117,8 @@ body {
   .fade-up,
   .reveal,
   .reveal.is-visible,
-  .wa-overlay,
-  .wa-card {
+  .wa-card,
+  .wa-fab {
     animation: none;
     opacity: 1;
     transform: none;

@@ -193,9 +193,10 @@ export const es = {
 
   whatsapp: {
     floatingLabel: "Escríbenos por WhatsApp",
-    title: "Escríbenos por WhatsApp",
-    description: "Escribe tu mensaje y te llevamos directo a la conversación.",
-    messageLabel: "Mensaje",
+    title: "R.C. Parks",
+    description: "En línea",
+    greeting:
+      "¡Hola! 👋 ¿Buscas espacio industrial en R.C. Parks? Escríbenos y con gusto te ayudamos.",
     defaultMessage:
       "Hola, me interesa conocer más sobre los espacios disponibles en R.C. Parks.",
     open: "Abrir WhatsApp",

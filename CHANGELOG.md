@@ -24,8 +24,9 @@ Trabajo en la rama `feat/webhook-ghl-atribucion` (todavía no fusionado a `main`
   el sitio, con el `dataLayer` centralizado en `app/lib/analytics.ts`.
 - Evento **`generate_lead`** al enviar el formulario, con datos del usuario (UPD)
   para conversiones mejoradas (Enhanced Conversions).
-- Evento **`whatsapp_click`** con un **modal de WhatsApp** (mensaje predeterminado
-  editable + botón flotante); el evento se emite en el clic final, no al abrir.
+- Evento **`whatsapp_click`** con un **panel tipo chat de WhatsApp** anclado abajo
+  a la derecha (mensaje de bienvenida + botón flotante que aparece tras 5 s); el
+  evento se emite en el clic final, no al abrir.
 - Documentación: [`docs/ghl-webhook.md`](docs/ghl-webhook.md),
   [`docs/analytics.md`](docs/analytics.md), `AGENTS.md`, `README.md` y este
   `CHANGELOG.md`.

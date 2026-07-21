@@ -46,9 +46,11 @@ minúsculas y sin espacios; teléfono en E.164 aproximado, MX por defecto).
 
 ### `whatsapp_click`
 
-Se dispara en el **segundo clic**: al abrir el número/botón de WhatsApp aparece un
-modal con un mensaje predeterminado editable, y el evento se emite al pulsar
-"Abrir WhatsApp". Así el evento representa intención real, no un roce accidental.
+Se dispara en el **segundo clic**: al tocar el número/botón de WhatsApp aparece un
+**panel tipo chat** anclado abajo a la derecha (no un modal a pantalla completa)
+con un mensaje de bienvenida, y el evento se emite al pulsar "Abrir WhatsApp". Así
+el evento representa intención real, no un roce accidental. El botón flotante
+aparece unos segundos después de cargar la página.
 
 ```jsonc
 {
