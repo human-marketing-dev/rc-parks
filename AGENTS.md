@@ -94,9 +94,11 @@ The contact form (`/api/contact`) fans out to two services. Full contract in
 Env files (`.env*`) are gitignored — never commit secrets or webhook URLs.
 
 Security posture of `/api/contact`: server-side forward (URL never reaches the
-browser), same-origin check, honeypot (`website` field), server-side validation
-and length caps. **Still missing** rate limiting / CAPTCHA (Turnstile) — see the
-"pending" section of the GHL doc before touching abuse-facing behavior.
+browser), honeypot (`website` field), server-side validation and length caps.
+(An `Origin` check was tried and reverted — behind www/apex/proxy hosting the
+`Host` header didn't match `Origin` and it 403'd real submissions.) **Still
+missing** rate limiting / CAPTCHA (Turnstile) — see the "pending" section of the
+GHL doc before touching abuse-facing behavior.
 
 ### Measurement (GTM)
 

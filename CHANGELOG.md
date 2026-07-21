@@ -37,7 +37,6 @@ Trabajo en la rama `feat/webhook-ghl-atribucion` (todavía no fusionado a `main`
   hardcodeado, porque el repo es público).
 - **Secreto compartido** (`token`) que el workflow de GHL valida en su primer
   paso: descarta POSTs directos a la URL sin el token.
-- **Chequeo de Origin** en `/api/contact` (rechaza cross-origin evidente).
 
 ## [2026-07-20]
 
