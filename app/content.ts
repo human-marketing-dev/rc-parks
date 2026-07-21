@@ -124,5 +124,7 @@ export const contactInfo = {
   email: "contacto@rc-parks.com",
   phone: "+52 81 3100 6363",
   whatsapp: "https://wa.me/528131006363",
+  /** Número en formato wa.me (sin +): base para armar el enlace con mensaje. */
+  whatsappNumber: "528131006363",
   site: "rc-parks.com",
 };

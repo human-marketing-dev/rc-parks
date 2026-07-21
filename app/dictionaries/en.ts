@@ -188,4 +188,15 @@ export const en: Dictionary = {
     toEnglish: "View the site in English",
     toSpanish: "View the site in Spanish",
   },
+
+  whatsapp: {
+    floatingLabel: "Message us on WhatsApp",
+    title: "Message us on WhatsApp",
+    description: "Write your message and we'll take you straight to the chat.",
+    messageLabel: "Message",
+    defaultMessage:
+      "Hi, I'd like to learn more about the available spaces at R.C. Parks.",
+    open: "Open WhatsApp",
+    close: "Close",
+  },
 };

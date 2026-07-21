@@ -190,6 +190,17 @@ export const es = {
     toEnglish: "Ver el sitio en inglés",
     toSpanish: "Ver el sitio en español",
   },
+
+  whatsapp: {
+    floatingLabel: "Escríbenos por WhatsApp",
+    title: "Escríbenos por WhatsApp",
+    description: "Escribe tu mensaje y te llevamos directo a la conversación.",
+    messageLabel: "Mensaje",
+    defaultMessage:
+      "Hola, me interesa conocer más sobre los espacios disponibles en R.C. Parks.",
+    open: "Abrir WhatsApp",
+    close: "Cerrar",
+  },
 };
 
 /** El español define la forma: si al inglés le falta una llave, TypeScript avisa. */

@@ -54,9 +54,11 @@ There is no separate typecheck script — `npm run build` is the type gate.
 | [`app/content.ts`](app/content.ts) | **Hard data** (stats, borders, location groups, social links, contact info) + locale formatters (`formatDistance`, `formatArea`). |
 | [`app/dictionaries/`](app/dictionaries/) | i18n strings. `es.ts` is the **source of truth**; `en.ts` must satisfy its type; `index.ts` exposes `locales`, `getDictionary`, `isLocale`. |
 | [`app/lib/attribution.ts`](app/lib/attribution.ts) | Site-wide marketing attribution capture (UTMs, click IDs, cookies) with first/last touch in `localStorage`. |
-| [`app/components/`](app/components/) | UI. Client components carry `"use client"` (`contact-form`, `attribution-tracker`, `language-switch`, `location-tabs`, `reveal`); prefer server components (`social-links` is server). |
-| [`app/globals.css`](app/globals.css) | Tailwind v4 `@theme` tokens + `reveal`/`fade-up` animation classes + reduced-motion. |
+| [`app/lib/analytics.ts`](app/lib/analytics.ts) | Measurement layer: the single entry point to the GTM `dataLayer` (`pushToDataLayer`) + typed event helpers (`trackGenerateLead`, `trackWhatsAppClick`). |
+| [`app/components/`](app/components/) | UI. Client components carry `"use client"` (`contact-form`, `attribution-tracker`, `language-switch`, `location-tabs`, `reveal`, `whatsapp-provider`); prefer server components (`social-links`, `google-tag-manager`). |
+| [`app/globals.css`](app/globals.css) | Tailwind v4 `@theme` tokens + `reveal`/`fade-up`/WhatsApp-modal animation classes + reduced-motion. |
 | [`docs/ghl-webhook.md`](docs/ghl-webhook.md) | Contact → GoHighLevel/Brevo integration: payload contract, env vars, GHL workflow mapping, security. |
+| [`docs/analytics.md`](docs/analytics.md) | Measurement: GTM container, `dataLayer` event schema, GTM / Enhanced-Conversions setup. |
 
 ## Conventions & invariants
 
@@ -96,6 +98,16 @@ browser), same-origin check, honeypot (`website` field), server-side validation
 and length caps. **Still missing** rate limiting / CAPTCHA (Turnstile) — see the
 "pending" section of the GHL doc before touching abuse-facing behavior.
 
+### Measurement (GTM)
+
+Site-wide Google Tag Manager (`GTM-TCKKHZ2T`) drives conversion tracking through a
+`dataLayer`. Events so far: `generate_lead` (successful form submit, carries
+Enhanced-Conversions `user_data`) and `whatsapp_click` (fired on the modal's final
+button). **Never push to `dataLayer` directly** — always go through
+[`app/lib/analytics.ts`](app/lib/analytics.ts). Container ID via
+`NEXT_PUBLIC_GTM_ID` (optional; defaults to the committed ID — GTM IDs aren't
+secret). Full contract in [`docs/analytics.md`](docs/analytics.md).
+
 ## Common tasks
 
 - **Add/adjust copy:** edit `es.ts`, then mirror in `en.ts`.
@@ -104,6 +116,9 @@ and length caps. **Still missing** rate limiting / CAPTCHA (Turnstile) — see t
   [`route.ts`](app/api/contact/route.ts) → add labels to both dictionaries.
 - **Add a marketing param:** extend `QUERY_TO_FIELD`/`Touch` in
   [`attribution.ts`](app/lib/attribution.ts) and `TOUCH_KEYS` in `route.ts`.
+- **Add an analytics event:** add a typed helper in
+  [`analytics.ts`](app/lib/analytics.ts) that calls `pushToDataLayer`, invoke it
+  from the relevant client component, then wire the trigger/tag in GTM.
 - **Add a locale:** add it to `locales` in `dictionaries/index.ts` and create the
   dict file; `proxy.ts` and `generateStaticParams` pick it up automatically.
 

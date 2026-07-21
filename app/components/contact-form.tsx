@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Dictionary, Locale } from "../dictionaries";
+import { trackGenerateLead } from "../lib/analytics";
 import { getAttributionPayload } from "../lib/attribution";
 
 const fieldClass =
@@ -45,8 +46,21 @@ export function ContactForm({
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-      const first = (data.get("nombre") ?? "").toString().trim().split(" ")[0];
-      setSentName(first);
+      const nombre = (data.get("nombre") ?? "").toString();
+      const apellido = (data.get("apellido") ?? "").toString();
+
+      // Conversión: generate_lead con datos del usuario (Enhanced Conversions).
+      // Se emite aquí, tras el éxito real del envío, no en el clic del botón.
+      trackGenerateLead({
+        firstName: nombre,
+        lastName: apellido,
+        email: (data.get("email") ?? "").toString(),
+        phone: (data.get("telefono") ?? "").toString(),
+        company: (data.get("empresa") ?? "").toString(),
+        locale,
+      });
+
+      setSentName(nombre.trim().split(" ")[0]);
     } catch {
       setStatus("error");
     }
