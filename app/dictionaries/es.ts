@@ -320,6 +320,87 @@ export const es = {
     sections: privacySectionsEs,
     backHome: "Volver al inicio",
   },
+
+  /**
+   * Landing de campaña (Google Ads). Vive en /cotiza (es) y /getquote (en) y
+   * reutiliza las secciones del home (why, amenities, location…); aquí solo van
+   * las llaves propias de la landing: hero de renta, diferenciadores, productos
+   * y el consentimiento del formulario.
+   */
+  quote: {
+    metaTitle:
+      "Bodegas industriales en renta en Ciénega de Flores, N.L. | R.C. Parks",
+    metaDescription:
+      "Renta de bodegas y naves industriales Triple A en Ciénega de Flores, N.L. Desde 487 hasta 5,100 m², integrables hasta 8,400 m². CFE frente al parque, 2,400 KVA y vigilancia 24/7.",
+    nav: {
+      cta: "Solicitar Espacio",
+      /** Etiqueta del enlace a la versión en inglés (/getquote). */
+      otherLang: "English",
+    },
+    hero: {
+      eyebrow: "Parque Industrial · Ciénega de Flores, N.L.",
+      title: "Bodegas industriales en renta en Ciénega de Flores, N.L.",
+      range: "Desde 487 hasta 5,100 m²",
+      lead: "Naves Triple A listas para manufactura y almacenamiento inteligente, en el corazón del corredor Monterrey–Texas. Déjanos tus datos y un asesor te contacta el mismo día.",
+      formHeading: "Solicita tu espacio",
+      formSub: "Respuesta el mismo día hábil.",
+      cta: "Solicitar Espacio",
+    },
+    differentiators: {
+      eyebrow: "Por qué R.C. Parks",
+      title: "La infraestructura que tu operación necesita.",
+      items: [
+        { id: "cfe", value: "CFE", label: "Planta de CFE frente al parque" },
+        {
+          id: "power",
+          value: "2,400 KVA",
+          label: "Capacidad eléctrica instalada",
+        },
+        {
+          id: "security",
+          value: "24/7",
+          label: "Vigilancia y acceso controlado",
+        },
+        {
+          id: "airport",
+          value: "15 min",
+          label: "Del Aeropuerto Int. del Norte",
+        },
+        {
+          id: "border",
+          value: "190 km",
+          label: "A la frontera de Pharr, Texas",
+        },
+      ],
+    },
+    products: {
+      eyebrow: "Espacios disponibles",
+      title: "Dos formatos de nave, listos para operar.",
+      lead: "Superficies flexibles según tu operación, con posibilidad de integrar módulos.",
+      rangeLabel: "Superficie",
+      items: [
+        {
+          id: "avenida",
+          name: "Bodegas con frente a avenida",
+          range: "430 – 615 m²",
+          body: "Ideales para última milla, showroom o logística ligera, con exposición y acceso directo a avenida.",
+          note: "",
+        },
+        {
+          id: "naves",
+          name: "Naves grandes",
+          range: "2,200 – 5,100 m²",
+          body: "Para manufactura y almacenamiento de alto volumen, con andenes y rampas neumáticas.",
+          note: "Integrables hasta ~8,400 m².",
+        },
+      ],
+    },
+    consent: {
+      before: "He leído y acepto el ",
+      link: "aviso de privacidad",
+      after: " y autorizo el tratamiento de mis datos para ser contactado.",
+    },
+  },
 };
 
 /** El español define la forma: si al inglés le falta una llave, TypeScript avisa. */

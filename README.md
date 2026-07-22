@@ -70,8 +70,12 @@ app/
     layout.tsx           Layout raíz + metadata + tracker de atribución
     page.tsx             La landing completa (todas las secciones)
     aviso-de-privacidad/ Aviso de privacidad bilingüe (LFPDPPP)
+  cotiza/                Landing de campaña (Google Ads) en español — URL /cotiza
+  getquote/             Landing de campaña (Google Ads) en inglés — URL /getquote
   api/contact/route.ts   Endpoint del formulario → Brevo + GoHighLevel
   components/            UI (form, tabs de ubicación, reveal, redes, etc.)
+  components/quote-landing.tsx  La landing de campaña (compartida es/en)
+  components/site-shell.tsx     <html>/<body> + GTM + WhatsApp (común a los layouts)
   components/ui/         Primitivas del design system (Button, Container…)
   content.ts             Datos duros (cifras, distancias, contacto) + formatos
   dictionaries/          Textos i18n (es = fuente de la verdad, en debe calzar)

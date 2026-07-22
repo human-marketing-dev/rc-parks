@@ -10,6 +10,19 @@ usa versionado semántico ni tags.
 
 ### Añadido
 
+- **Landings de campaña (Google Ads)** en URL limpia por idioma: `/cotiza` (es) y
+  `/getquote` (en). Reutilizan el diseño del sitio pero reordenado para
+  conversión: hero de **renta** con el rango de m² y el **formulario a la vista**
+  sobre el video, tira de **diferenciadores** con íconos (CFE frente al parque,
+  2,400 KVA, vigilancia 24/7, 15 min del aeropuerto, distancia a frontera),
+  sección de **productos/inventario** (bodegas con frente a avenida 430–615 m² y
+  naves grandes 2,200–5,100 m², integrables hasta ~8,400 m²), y un **checkbox de
+  consentimiento obligatorio** en el formulario que enlaza al aviso de privacidad.
+  El CTA del formulario es "Solicitar Espacio".
+  - Viven fuera de `[lang]`, cada una como **root layout** propio (patrón de
+    múltiples root layouts de Next); `SiteShell` centraliza `<html>/<body>` + GTM
+    + WhatsApp para los tres layouts. Excluidas del matcher de `proxy.ts` para no
+    redirigirse al idioma del navegador.
 - **Aviso de privacidad bilingüe** en `/es/aviso-de-privacidad` y
   `/en/aviso-de-privacidad` (LFPDPPP), con los datos del responsable
   (Conglomerado RC, S.A. de C.V.) y adaptado a lo que el sitio realmente

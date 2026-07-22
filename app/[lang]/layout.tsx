@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import { AttributionTracker } from "../components/attribution-tracker";
-import {
-  GoogleTagManager,
-  GoogleTagManagerNoScript,
-} from "../components/google-tag-manager";
-import { WhatsAppProvider } from "../components/whatsapp-provider";
-import { contactInfo } from "../content";
+import { SiteShell } from "../components/site-shell";
 import { getDictionary, isLocale, locales, defaultLocale } from "../dictionaries";
 
 export function generateStaticParams() {
@@ -34,21 +28,12 @@ export default async function RootLayout({
   params,
 }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
-  const dict = getDictionary(isLocale(lang) ? lang : defaultLocale);
+  const locale = isLocale(lang) ? lang : defaultLocale;
+  const dict = getDictionary(locale);
 
   return (
-    <html lang={lang} className="h-full antialiased">
-      <body className="flex min-h-full flex-col font-sans">
-        <GoogleTagManager />
-        <GoogleTagManagerNoScript />
-        <AttributionTracker />
-        <WhatsAppProvider
-          dict={dict.whatsapp}
-          number={contactInfo.whatsappNumber}
-        >
-          {children}
-        </WhatsAppProvider>
-      </body>
-    </html>
+    <SiteShell lang={locale} dict={dict}>
+      {children}
+    </SiteShell>
   );
 }

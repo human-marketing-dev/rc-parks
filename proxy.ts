@@ -36,6 +36,8 @@ export function proxy(request: NextRequest) {
 export const config = {
   // Deja pasar API, assets y archivos internos; solo redirige rutas de página.
   // `api` es imprescindible: sin él, /api/contact se redirige a /es/api/contact
-  // y el endpoint deja de responder.
-  matcher: ["/((?!api|_next|assets|favicon.ico|.*\\.).*)"],
+  // y el endpoint deja de responder. `getquote`/`cotiza` son las landings de
+  // campaña: viven fuera de `[lang]` con URL limpia, así que NO deben redirigirse
+  // al idioma del navegador (romperían el enlace del anuncio).
+  matcher: ["/((?!api|_next|assets|favicon.ico|getquote|cotiza|.*\\.).*)"],
 };

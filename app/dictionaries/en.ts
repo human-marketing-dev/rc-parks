@@ -301,4 +301,79 @@ export const en: Dictionary = {
     ],
     backHome: "Back to home",
   },
+
+  quote: {
+    metaTitle:
+      "Industrial warehouses for lease in Ciénega de Flores, N.L. | R.C. Parks",
+    metaDescription:
+      "Lease Triple A industrial warehouses in Ciénega de Flores, N.L. From 487 to 5,100 m², combinable up to 8,400 m². CFE plant across the street, 2,400 KVA and 24/7 security.",
+    nav: {
+      cta: "Request Space",
+      /** Label of the link to the Spanish version (/cotiza). */
+      otherLang: "Español",
+    },
+    hero: {
+      eyebrow: "Industrial Park · Ciénega de Flores, N.L.",
+      title: "Industrial warehouses for lease in Ciénega de Flores, N.L.",
+      range: "From 487 to 5,100 m²",
+      lead: "Triple A units ready for smart manufacturing and warehousing, in the heart of the Monterrey–Texas corridor. Leave your details and an advisor will reach out the same day.",
+      formHeading: "Request your space",
+      formSub: "Same business-day response.",
+      cta: "Request Space",
+    },
+    differentiators: {
+      eyebrow: "Why R.C. Parks",
+      title: "The infrastructure your operation needs.",
+      items: [
+        { id: "cfe", value: "CFE", label: "CFE power plant facing the park" },
+        {
+          id: "power",
+          value: "2,400 KVA",
+          label: "Installed electrical capacity",
+        },
+        {
+          id: "security",
+          value: "24/7",
+          label: "Surveillance and controlled access",
+        },
+        {
+          id: "airport",
+          value: "15 min",
+          label: "From Aeropuerto Int. del Norte",
+        },
+        {
+          id: "border",
+          value: "118 mi",
+          label: "To the Pharr, Texas border",
+        },
+      ],
+    },
+    products: {
+      eyebrow: "Available spaces",
+      title: "Two unit formats, ready to operate.",
+      lead: "Flexible footprints to match your operation, with the option to combine modules.",
+      rangeLabel: "Floor area",
+      items: [
+        {
+          id: "avenida",
+          name: "Avenue-front warehouses",
+          range: "430 – 615 m²",
+          body: "Ideal for last-mile, showroom or light logistics, with avenue exposure and direct access.",
+          note: "",
+        },
+        {
+          id: "naves",
+          name: "Large-format units",
+          range: "2,200 – 5,100 m²",
+          body: "For high-volume manufacturing and warehousing, with docks and pneumatic ramps.",
+          note: "Combinable up to ~8,400 m².",
+        },
+      ],
+    },
+    consent: {
+      before: "I have read and accept the ",
+      link: "privacy notice",
+      after: " and authorize the processing of my data to be contacted.",
+    },
+  },
 };

@@ -51,6 +51,9 @@ There is no separate typecheck script — `npm run build` is the type gate.
 | [`app/[lang]/layout.tsx`](app/[lang]/layout.tsx) | Root layout, `generateStaticParams` (es/en), `generateMetadata`, mounts `AttributionTracker`. |
 | [`app/[lang]/page.tsx`](app/[lang]/page.tsx) | The entire landing (server component). Reads the dictionary + hard data, renders every section. |
 | [`app/[lang]/aviso-de-privacidad/page.tsx`](app/[lang]/aviso-de-privacidad/page.tsx) | Static bilingual privacy notice (LFPDPPP). All copy lives in the dictionaries' `privacy` block (`PrivacySection[]`); linked from the landing footer. Same slug in both locales so `LanguageSwitch` keeps working. |
+| [`app/cotiza/`](app/cotiza/) · [`app/getquote/`](app/getquote/) | **Campaign landings** (Google Ads), one language each at a clean URL (es `/cotiza`, en `/getquote`). They live **outside `[lang]`**, so each folder is its own **root layout** (`layout.tsx` → `<html>` via `SiteShell`) — the pattern the Next docs call "omit `app/layout.js` and let subdirectories be root layouts." Both render the shared [`QuoteLanding`](app/components/quote-landing.tsx). Excluded from the `proxy.ts` matcher so they're **not** redirected to a locale. |
+| [`app/components/quote-landing.tsx`](app/components/quote-landing.tsx) | The campaign landing (server component), parameterized by `lang`. Rental hero with the form in view, differentiator icon strip, product/inventory ranges, reused proof sections (amenities + location) and a closing form. Copy in the dictionaries' `quote` block; the form gets `consent` (required checkbox) + a "Solicitar Espacio" submit. |
+| [`app/components/site-shell.tsx`](app/components/site-shell.tsx) | Shared `<html>/<body>` + GTM + attribution + WhatsApp wrapper used by **every** root layout (`[lang]`, `cotiza`, `getquote`) so the boilerplate lives once. |
 | [`app/api/contact/route.ts`](app/api/contact/route.ts) | `POST` handler: origin check → honeypot → validation → Brevo email + GoHighLevel webhook. Server-only; all secrets from env. |
 | [`app/content.ts`](app/content.ts) | **Hard data** (stats, borders, location groups, social links, contact info) + locale formatters (`formatDistance`, `formatArea`). |
 | [`app/dictionaries/`](app/dictionaries/) | i18n strings. `es.ts` is the **source of truth**; `en.ts` must satisfy its type; `index.ts` exposes `locales`, `getDictionary`, `isLocale`. |
@@ -137,7 +140,10 @@ secret). Full contract in [`docs/analytics.md`](docs/analytics.md).
 
 ## Gotchas
 
-- Don't remove `api` (or `_next`, `assets`) from the `proxy.ts` matcher.
+- Don't remove `api` (or `_next`, `assets`, `getquote`, `cotiza`) from the
+  `proxy.ts` matcher. The last two are the campaign landings: they must serve at
+  their clean URL, not get redirected to `/es`/`/en`. Any future clean-URL page
+  outside `[lang]` needs the same exclusion **and** its own root layout.
 - `params` must be awaited; `isLocale(lang)` guards unknown locales (the page
   calls `notFound()`).
 - The honeypot must return the **same** success response as a real submit, and

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import type { Dictionary, Locale } from "../dictionaries";
 import { trackGenerateLead } from "../lib/analytics";
@@ -9,12 +10,27 @@ import { TextAreaField, TextField } from "./ui/field";
 
 type Status = "idle" | "sending" | "error";
 
+/**
+ * Consentimiento opcional: cuando llega, se renderiza un checkbox obligatorio
+ * que enlaza al aviso de privacidad. Lo usa la landing de campaña (/cotiza,
+ * /getquote); el formulario del home lo omite y queda igual que antes.
+ */
+export type ConsentCopy = {
+  before: string;
+  link: string;
+  after: string;
+  /** Ruta al aviso de privacidad del idioma correspondiente. */
+  href: string;
+};
+
 export function ContactForm({
   dict,
   locale,
+  consent,
 }: {
   dict: Dictionary["contact"]["form"];
   locale: Locale;
+  consent?: ConsentCopy;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [sentName, setSentName] = useState<string | null>(null);
@@ -160,6 +176,32 @@ export function ContactForm({
           maxLength={2000}
           placeholder={dict.messagePlaceholder}
         />
+
+        {consent ? (
+          // `required` bloquea el envío hasta marcarlo: es la autorización de
+          // tratamiento de datos. El enlace abre el aviso en otra pestaña para
+          // no perder lo ya capturado en el formulario.
+          <label className="flex items-start gap-3 text-[13px] leading-[1.5] text-ink/70">
+            <input
+              type="checkbox"
+              name="consent"
+              value="si"
+              required
+              className="mt-0.5 size-4 shrink-0 accent-azure"
+            />
+            <span>
+              {consent.before}
+              <Link
+                href={consent.href}
+                target="_blank"
+                className="text-ink underline underline-offset-2 hover:text-azure"
+              >
+                {consent.link}
+              </Link>
+              {consent.after}
+            </span>
+          </label>
+        ) : null}
 
         {status === "error" ? (
           <p role="alert" className="text-sm leading-[1.5] text-error">
