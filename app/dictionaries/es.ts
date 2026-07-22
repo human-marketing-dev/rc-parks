@@ -1,3 +1,105 @@
+/**
+ * Sección del aviso de privacidad. La forma es uniforme (todas las llaves
+ * presentes, aunque queden arrays vacíos) para que `typeof es` infiera
+ * `string[]` en cada campo y el inglés pueda calzar el tipo sin fricción.
+ */
+export type PrivacySection = {
+  heading: string;
+  /** Párrafos antes de la lista. */
+  paragraphs: string[];
+  /** Viñetas (vacío si la sección no lleva lista). */
+  items: string[];
+  /** Párrafos después de la lista. */
+  after: string[];
+};
+
+const privacySectionsEs: PrivacySection[] = [
+  {
+    heading: "¿Cómo protegemos sus datos personales?",
+    paragraphs: [
+      "En la recolección y tratamiento de los datos personales que usted nos proporciona cumplimos todos los principios que marca la Ley: licitud, calidad, consentimiento, información, finalidad, lealtad, proporcionalidad y responsabilidad.",
+      "R.C. Parks ha implementado medidas de seguridad administrativas, técnicas y físicas para proteger sus datos personales, mismas que exigimos también a los proveedores de servicios que contratamos.",
+    ],
+    items: [],
+    after: [],
+  },
+  {
+    heading: "¿Qué datos personales recabamos?",
+    paragraphs: [
+      "Los datos personales que recabamos de usted de manera libre y voluntaria, a través del formulario de contacto de este sitio o de los medios de contacto publicados en él, podrán ser algunos o todos de los siguientes:",
+    ],
+    items: [
+      "Nombre y apellido.",
+      "Empresa a la que representa.",
+      "Dirección de correo electrónico.",
+      "Número de teléfono.",
+      "La información que usted decida compartirnos en su mensaje (por ejemplo, superficie, energía y fechas requeridas).",
+    ],
+    after: [
+      "Al navegar el sitio también recabamos, mediante cookies y tecnologías similares, datos de medición como las páginas visitadas, la fuente de la visita (parámetros de campaña e identificadores de clic), el idioma del navegador e identificadores de cookies de herramientas de analítica y publicidad (por ejemplo, Google y Meta). Estos datos se utilizan de forma agregada o seudonimizada para medir la eficacia de nuestras campañas.",
+      "Usted puede deshabilitar las cookies desde la configuración de su navegador; el sitio seguirá funcionando con normalidad.",
+    ],
+  },
+  {
+    heading: "¿Para qué utilizamos sus datos personales?",
+    paragraphs: [
+      "Sus datos personales serán utilizados para las siguientes finalidades primarias:",
+    ],
+    items: [
+      "Atender su solicitud de información sobre los espacios industriales de R.C. Parks y darle seguimiento comercial.",
+      "Contactarle por correo electrónico, teléfono o WhatsApp.",
+      "Procesos internos administrativos, como atención a clientes, cotización, contratación y cobranza.",
+      "Elaboración de facturas y presentación de declaraciones ante autoridades fiscales, en caso de concretarse una relación comercial.",
+    ],
+    after: [
+      "De manera secundaria, utilizamos datos de navegación y de contacto para campañas de marketing y ventas de R.C. Parks y para medir el desempeño de nuestra publicidad digital. Si no desea que sus datos se utilicen para estas finalidades secundarias, puede indicárnoslo en cualquier momento escribiendo a contacto@rc-parks.com.",
+    ],
+  },
+  {
+    heading: "¿Con quién compartimos su información?",
+    paragraphs: [
+      "Para operar este sitio y dar seguimiento a su solicitud, sus datos son tratados por proveedores tecnológicos que actúan por cuenta de R.C. Parks (encargados), como la plataforma de correo que nos notifica su solicitud, el sistema CRM donde damos seguimiento a los prospectos y las herramientas de medición publicitaria de Google y Meta (estas últimas reciben identificadores seudonimizados o cifrados).",
+      "Sus datos personales pueden ser transferidos a la Secretaría de Hacienda y Crédito Público (SHCP), a través del Servicio de Administración Tributaria (SAT), cuando exista obligación legal. Fuera de estos casos, nos comprometemos a no transferir su información personal a terceros sin su consentimiento, salvo las excepciones previstas en la Ley.",
+    ],
+    items: [],
+    after: [],
+  },
+  {
+    heading: "¿Cómo puede ejercer sus derechos ARCO y revocar su consentimiento?",
+    paragraphs: [
+      "Usted tiene derecho a acceder a los datos personales que poseemos y a los detalles de su tratamiento, así como a rectificarlos si son inexactos, cancelarlos cuando considere que resultan excesivos o innecesarios para las finalidades que justificaron su obtención, u oponerse a su tratamiento para fines específicos (derechos ARCO). También puede revocar en cualquier momento el consentimiento que nos haya otorgado.",
+      "Para ejercerlos, envíe una solicitud a contacto@rc-parks.com incluyendo al menos: su nombre completo, un teléfono o correo de contacto; copia de su identificación oficial (o, si actúa en representación del titular, el documento que lo acredite); el derecho que desea ejercer y una descripción clara de los datos personales respecto de los que lo ejerce.",
+      "Le responderemos por el mismo medio en un plazo no mayor a 20 días hábiles.",
+    ],
+    items: [],
+    after: [],
+  },
+  {
+    heading: "Modificaciones al aviso de privacidad",
+    paragraphs: [
+      "Nos reservamos el derecho de efectuar en cualquier momento modificaciones o actualizaciones al presente aviso para atender novedades legislativas, políticas internas o nuevos requerimientos para la prestación de nuestros servicios. Las modificaciones estarán disponibles en esta página, con su fecha de última actualización.",
+    ],
+    items: [],
+    after: [],
+  },
+  {
+    heading: "Procedimiento de protección de derechos",
+    paragraphs: [
+      "Si considera que su derecho a la protección de datos personales ha sido vulnerado, puede acudir ante la autoridad garante en materia de protección de datos personales (la Secretaría Anticorrupción y Buen Gobierno). Más información en www.gob.mx.",
+    ],
+    items: [],
+    after: [],
+  },
+  {
+    heading: "Consentimiento para el tratamiento de sus datos",
+    paragraphs: [
+      "Al proporcionar sus datos a través del formulario o de los medios de contacto de este sitio, usted consiente que sean tratados conforme al presente aviso de privacidad. Si no está de acuerdo, puede comunicarlo por escrito a contacto@rc-parks.com o al domicilio señalado al inicio de este aviso.",
+    ],
+    items: [],
+    after: [],
+  },
+];
+
 export const es = {
   metadata: {
     title: "R.C. Parks — El futuro de la innovación industrial",
@@ -183,6 +285,7 @@ export const es = {
       "Redefiniendo la logística industrial del Noreste de México y Texas. Espacios Triple A para la nueva era de manufactura.",
     rights: "© 2026 R.C. Parks. Todos los derechos reservados.",
     social: "Redes sociales",
+    privacy: "Aviso de privacidad",
   },
 
   languageSwitch: {
@@ -201,6 +304,21 @@ export const es = {
       "Hola, me interesa conocer más sobre los espacios disponibles en R.C. Parks.",
     open: "Abrir WhatsApp",
     close: "Cerrar",
+  },
+
+  privacy: {
+    metaTitle: "Aviso de privacidad — R.C. Parks",
+    metaDescription:
+      "Aviso de privacidad de Conglomerado RC, S.A. de C.V. (R.C. Parks): qué datos personales recabamos, para qué los usamos y cómo ejercer tus derechos ARCO.",
+    eyebrow: "Legal",
+    title: "Aviso de privacidad",
+    updated: "Última actualización: 22 de julio de 2026",
+    intro: [
+      "En cumplimiento de la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (en lo sucesivo, la “Ley”), Conglomerado RC, S.A. de C.V. (en lo sucesivo, “R.C. Parks”), con domicilio en Av. Gómez Morín 900, Int. L 65, Col. Carrizalejo, C.P. 66254, San Pedro Garza García, Nuevo León, México, emite el presente aviso de privacidad para informarle sobre la responsabilidad y el tratamiento de sus datos personales.",
+      "Puede contactarnos en el domicilio indicado o en la dirección de correo electrónico contacto@rc-parks.com.",
+    ],
+    sections: privacySectionsEs,
+    backHome: "Volver al inicio",
   },
 };
 

@@ -10,6 +10,12 @@ usa versionado semántico ni tags.
 
 ### Añadido
 
+- **Aviso de privacidad bilingüe** en `/es/aviso-de-privacidad` y
+  `/en/aviso-de-privacidad` (LFPDPPP), con los datos del responsable
+  (Conglomerado RC, S.A. de C.V.) y adaptado a lo que el sitio realmente
+  recaba (formulario, cookies de medición, encargados). Enlazado desde el
+  footer de la landing; todo el texto vive en los diccionarios.
+
 - **Design system tokenizado.** Todos los valores de diseño viven como tokens en
   el `@theme` de `globals.css` (colores —incluida la paleta de WhatsApp y el
   rojo de error—, roles tipográficos `display-*`/`lead`/`body`/`label`, radios

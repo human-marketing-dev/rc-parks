@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ContactForm } from "../components/contact-form";
 import { LanguageSwitch } from "../components/language-switch";
@@ -590,8 +591,14 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <SocialLinks label={t.footer.social} />
           </div>
         </Container>
-        <Container className="mt-11 border-t border-white/10 pt-6 text-label text-white/40">
-          {t.footer.rights}
+        <Container className="mt-11 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-white/10 pt-6 text-label text-white/40">
+          <span>{t.footer.rights}</span>
+          <Link
+            href={`/${lang}/aviso-de-privacidad`}
+            className="transition-colors hover:text-azure"
+          >
+            {t.footer.privacy}
+          </Link>
         </Container>
       </footer>
     </div>

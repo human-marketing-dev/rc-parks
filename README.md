@@ -69,6 +69,7 @@ app/
   [lang]/
     layout.tsx           Layout raíz + metadata + tracker de atribución
     page.tsx             La landing completa (todas las secciones)
+    aviso-de-privacidad/ Aviso de privacidad bilingüe (LFPDPPP)
   api/contact/route.ts   Endpoint del formulario → Brevo + GoHighLevel
   components/            UI (form, tabs de ubicación, reveal, redes, etc.)
   components/ui/         Primitivas del design system (Button, Container…)

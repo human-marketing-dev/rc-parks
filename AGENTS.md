@@ -50,6 +50,7 @@ There is no separate typecheck script — `npm run build` is the type gate.
 | [`proxy.ts`](proxy.ts) | Locale redirect: sends locale-less paths to the browser's preferred locale (es fallback). **Matcher must keep excluding `api`** or `/api/contact` breaks. |
 | [`app/[lang]/layout.tsx`](app/[lang]/layout.tsx) | Root layout, `generateStaticParams` (es/en), `generateMetadata`, mounts `AttributionTracker`. |
 | [`app/[lang]/page.tsx`](app/[lang]/page.tsx) | The entire landing (server component). Reads the dictionary + hard data, renders every section. |
+| [`app/[lang]/aviso-de-privacidad/page.tsx`](app/[lang]/aviso-de-privacidad/page.tsx) | Static bilingual privacy notice (LFPDPPP). All copy lives in the dictionaries' `privacy` block (`PrivacySection[]`); linked from the landing footer. Same slug in both locales so `LanguageSwitch` keeps working. |
 | [`app/api/contact/route.ts`](app/api/contact/route.ts) | `POST` handler: origin check → honeypot → validation → Brevo email + GoHighLevel webhook. Server-only; all secrets from env. |
 | [`app/content.ts`](app/content.ts) | **Hard data** (stats, borders, location groups, social links, contact info) + locale formatters (`formatDistance`, `formatArea`). |
 | [`app/dictionaries/`](app/dictionaries/) | i18n strings. `es.ts` is the **source of truth**; `en.ts` must satisfy its type; `index.ts` exposes `locales`, `getDictionary`, `isLocale`. |

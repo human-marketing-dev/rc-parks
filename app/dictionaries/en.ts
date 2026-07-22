@@ -181,6 +181,7 @@ export const en: Dictionary = {
       "Redefining industrial logistics across Northeast Mexico and Texas. Triple A spaces for the new era of manufacturing.",
     rights: "© 2026 R.C. Parks. All rights reserved.",
     social: "Social media",
+    privacy: "Privacy notice",
   },
 
   languageSwitch: {
@@ -199,5 +200,105 @@ export const en: Dictionary = {
       "Hi, I'd like to learn more about the available spaces at R.C. Parks.",
     open: "Open WhatsApp",
     close: "Close",
+  },
+
+  privacy: {
+    metaTitle: "Privacy notice — R.C. Parks",
+    metaDescription:
+      "Privacy notice of Conglomerado RC, S.A. de C.V. (R.C. Parks): what personal data we collect, how we use it, and how to exercise your ARCO rights.",
+    eyebrow: "Legal",
+    title: "Privacy notice",
+    updated: "Last updated: July 22, 2026",
+    intro: [
+      "In compliance with Mexico's Federal Law on the Protection of Personal Data Held by Private Parties (hereinafter, the “Law”), Conglomerado RC, S.A. de C.V. (hereinafter, “R.C. Parks”), with registered address at Av. Gómez Morín 900, Int. L 65, Col. Carrizalejo, C.P. 66254, San Pedro Garza García, Nuevo León, Mexico, issues this privacy notice to inform you about the handling and protection of your personal data.",
+      "You may contact us at the address above or by email at contacto@rc-parks.com.",
+    ],
+    sections: [
+      {
+        heading: "How do we protect your personal data?",
+        paragraphs: [
+          "When collecting and processing the personal data you provide, we comply with every principle set out in the Law: lawfulness, quality, consent, information, purpose, loyalty, proportionality and accountability.",
+          "R.C. Parks has implemented administrative, technical and physical security measures to protect your personal data, and we require the service providers we engage to comply with them as well.",
+        ],
+        items: [],
+        after: [],
+      },
+      {
+        heading: "What personal data do we collect?",
+        paragraphs: [
+          "The personal data we collect from you, freely and voluntarily, through this site's contact form or the contact channels published on it, may include some or all of the following:",
+        ],
+        items: [
+          "First and last name.",
+          "Company you represent.",
+          "Email address.",
+          "Phone number.",
+          "Any information you choose to share in your message (for example, required area, power and timeline).",
+        ],
+        after: [
+          "While you browse the site we also collect, through cookies and similar technologies, measurement data such as the pages you visit, the source of your visit (campaign parameters and click identifiers), your browser language, and cookie identifiers from analytics and advertising tools (for example, Google and Meta). This data is used in aggregated or pseudonymized form to measure the effectiveness of our campaigns.",
+          "You can disable cookies in your browser settings; the site will keep working normally.",
+        ],
+      },
+      {
+        heading: "What do we use your personal data for?",
+        paragraphs: [
+          "Your personal data will be used for the following primary purposes:",
+        ],
+        items: [
+          "Handling your request for information about R.C. Parks' industrial spaces and following up commercially.",
+          "Contacting you by email, phone or WhatsApp.",
+          "Internal administrative processes such as customer service, quoting, contracting and collections.",
+          "Issuing invoices and filing returns with tax authorities, if a commercial relationship is established.",
+        ],
+        after: [
+          "Secondarily, we use browsing and contact data for R.C. Parks marketing and sales campaigns and to measure the performance of our digital advertising. If you do not want your data used for these secondary purposes, you can tell us at any time by writing to contacto@rc-parks.com.",
+        ],
+      },
+      {
+        heading: "Who do we share your information with?",
+        paragraphs: [
+          "To operate this site and follow up on your request, your data is processed by technology providers acting on behalf of R.C. Parks (data processors), such as the email platform that notifies us of your request, the CRM system where we track prospects, and the advertising measurement tools of Google and Meta (the latter receive pseudonymized or hashed identifiers).",
+          "Your personal data may be transferred to the Ministry of Finance and Public Credit (SHCP), through the Tax Administration Service (SAT), where legally required. Beyond these cases, we commit not to transfer your personal information to third parties without your consent, except for the exceptions provided in the Law.",
+        ],
+        items: [],
+        after: [],
+      },
+      {
+        heading: "How can you exercise your ARCO rights and revoke your consent?",
+        paragraphs: [
+          "You have the right to access the personal data we hold and the details of its processing, to rectify it if inaccurate, to cancel it when you consider it excessive or unnecessary for the purposes that justified its collection, and to object to its processing for specific purposes (ARCO rights). You may also revoke, at any time, the consent you have given us.",
+          "To exercise them, send a request to contacto@rc-parks.com including at least: your full name and a contact phone or email; a copy of your official ID (or, if acting on behalf of the data subject, the document that accredits you); the right you wish to exercise and a clear description of the personal data concerned.",
+          "We will respond through the same channel within no more than 20 business days.",
+        ],
+        items: [],
+        after: [],
+      },
+      {
+        heading: "Changes to this privacy notice",
+        paragraphs: [
+          "We reserve the right to modify or update this notice at any time to reflect legislative changes, internal policies or new requirements for the provision of our services. Any changes will be available on this page, with their last-updated date.",
+        ],
+        items: [],
+        after: [],
+      },
+      {
+        heading: "Rights protection procedure",
+        paragraphs: [
+          "If you believe your right to personal data protection has been violated, you may turn to the guarantor authority for personal data protection (Mexico's Secretaría Anticorrupción y Buen Gobierno). More information at www.gob.mx.",
+        ],
+        items: [],
+        after: [],
+      },
+      {
+        heading: "Consent to the processing of your data",
+        paragraphs: [
+          "By providing your data through this site's form or contact channels, you consent to its processing in accordance with this privacy notice. If you do not agree, you may notify us in writing at contacto@rc-parks.com or at the address indicated at the beginning of this notice.",
+        ],
+        items: [],
+        after: [],
+      },
+    ],
+    backHome: "Back to home",
   },
 };
