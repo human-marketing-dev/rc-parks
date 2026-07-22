@@ -82,7 +82,7 @@ export function LocationTabs({
         {dict.highlights.map((highlight) => (
           <div
             key={highlight.value}
-            className="rounded-[3px] bg-ink px-[26px] py-6 text-white"
+            className="rounded-field bg-ink px-[26px] py-6 text-white"
           >
             <div className="text-[34px] font-medium tracking-[-1.5px] text-azure">
               {highlight.value}

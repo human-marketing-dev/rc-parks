@@ -71,12 +71,14 @@ app/
     page.tsx             La landing completa (todas las secciones)
   api/contact/route.ts   Endpoint del formulario → Brevo + GoHighLevel
   components/            UI (form, tabs de ubicación, reveal, redes, etc.)
+  components/ui/         Primitivas del design system (Button, Container…)
   content.ts             Datos duros (cifras, distancias, contacto) + formatos
   dictionaries/          Textos i18n (es = fuente de la verdad, en debe calzar)
   lib/attribution.ts     Captura de atribución de marketing (first/last touch)
   lib/analytics.ts       Capa de medición: dataLayer + eventos (GTM)
-  globals.css            Tokens de tema y animaciones (Tailwind v4)
+  globals.css            Design system: tokens @theme y animaciones (Tailwind v4)
 public/assets/           Imágenes, video del hero, logos
+docs/design-system.md    Tokens, primitivas UI y reglas de extensión
 docs/ghl-webhook.md      Integración de contacto (payload, mapeo, seguridad)
 docs/analytics.md        Medición: GTM, eventos y conversiones
 ```

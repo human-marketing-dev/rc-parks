@@ -56,7 +56,9 @@ There is no separate typecheck script — `npm run build` is the type gate.
 | [`app/lib/attribution.ts`](app/lib/attribution.ts) | Site-wide marketing attribution capture (UTMs, click IDs, cookies) with first/last touch in `localStorage`. |
 | [`app/lib/analytics.ts`](app/lib/analytics.ts) | Measurement layer: the single entry point to the GTM `dataLayer` (`pushToDataLayer`) + typed event helpers (`trackGenerateLead`, `trackWhatsAppClick`). |
 | [`app/components/`](app/components/) | UI. Client components carry `"use client"` (`contact-form`, `attribution-tracker`, `language-switch`, `location-tabs`, `reveal`, `whatsapp-provider`); prefer server components (`social-links`, `google-tag-manager`). |
-| [`app/globals.css`](app/globals.css) | Tailwind v4 `@theme` tokens + `reveal`/`fade-up`/WhatsApp-modal animation classes + reduced-motion. |
+| [`app/components/ui/`](app/components/ui/) | Design-system primitives (server-safe): `Container`, `Eyebrow`, `SectionTitle`, `Button`, `TextField`/`TextAreaField`. |
+| [`app/globals.css`](app/globals.css) | **Design-system tokens** in the Tailwind v4 `@theme` (colors, type roles, radii, tracking, shell width) + `reveal`/`fade-up`/WhatsApp animation classes + reduced-motion. |
+| [`docs/design-system.md`](docs/design-system.md) | Token tables, UI-primitive APIs, extension rules. |
 | [`docs/ghl-webhook.md`](docs/ghl-webhook.md) | Contact → GoHighLevel/Brevo integration: payload contract, env vars, GHL workflow mapping, security. |
 | [`docs/analytics.md`](docs/analytics.md) | Measurement: GTM container, `dataLayer` event schema, GTM / Enhanced-Conversions setup. |
 
@@ -73,9 +75,13 @@ There is no separate typecheck script — `npm run build` is the type gate.
   state/effects/browser APIs.
 - **Imports are relative** (`../dictionaries`). A `@/*` alias exists in
   `tsconfig.json` but the codebase doesn't use it — stay consistent.
-- **Styling** uses theme tokens (`bg-ink`, `text-azure`, `border-stone`…) and
-  Tailwind arbitrary values. Palette: `ink` #0a0a0a, `azure` #4ebfe0, plus
-  `stone`/`stone-dark`/`hairline`/`field` neutrals.
+- **Styling goes through the design system** ([docs/design-system.md](docs/design-system.md)):
+  colors, radii, tracking, and type roles are tokens in the `@theme` of
+  `globals.css` (`bg-ink`, `rounded-card`, `text-display-lg`, `text-lead`…), and
+  repeated recipes are primitives in `app/components/ui/` (`Container`,
+  `Eyebrow`, `SectionTitle`, `Button`, `TextField`). **No hex values or new
+  clamps in components** — name a token first. A one-off arbitrary value
+  (`text-[15px]`) is fine until it repeats; then promote it.
 
 ## Integrations & environment
 
@@ -121,6 +127,10 @@ secret). Full contract in [`docs/analytics.md`](docs/analytics.md).
 - **Add an analytics event:** add a typed helper in
   [`analytics.ts`](app/lib/analytics.ts) that calls `pushToDataLayer`, invoke it
   from the relevant client component, then wire the trigger/tag in GTM.
+- **Add a design token / UI variant:** token in the `@theme` of
+  [`globals.css`](app/globals.css) (utility exists instantly); button variants in
+  [`ui/button.tsx`](app/components/ui/button.tsx). See
+  [docs/design-system.md](docs/design-system.md).
 - **Add a locale:** add it to `locales` in `dictionaries/index.ts` and create the
   dict file; `proxy.ts` and `generateStaticParams` pick it up automatically.
 

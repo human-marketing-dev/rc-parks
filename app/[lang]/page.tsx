@@ -5,6 +5,10 @@ import { LanguageSwitch } from "../components/language-switch";
 import { LocationTabs } from "../components/location-tabs";
 import { Reveal } from "../components/reveal";
 import { SocialLinks } from "../components/social-links";
+import { Button } from "../components/ui/button";
+import { Container } from "../components/ui/container";
+import { Eyebrow } from "../components/ui/eyebrow";
+import { SectionTitle } from "../components/ui/section-title";
 import { WhatsAppTrigger } from "../components/whatsapp-provider";
 import {
   contactInfo,
@@ -14,9 +18,6 @@ import {
   stats,
 } from "../content";
 import { getDictionary, isLocale, type Dictionary } from "../dictionaries";
-
-const SHELL = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
-const EYEBROW = "text-[12.5px] font-medium uppercase tracking-[3px]";
 
 /** Solo la apariencia del bento: los textos salen del diccionario. */
 const tileStyles = [
@@ -84,7 +85,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     <div className="overflow-x-hidden">
       {/* NAV */}
       <header className="sticky top-0 z-50 border-b border-stone bg-white/90 backdrop-blur-md">
-        <div className={`${SHELL} flex h-[78px] items-center justify-between`}>
+        <Container className="flex h-[78px] items-center justify-between">
           <a href="#top" className="flex items-center">
             <Image
               src="/assets/logo-rc-parks-black.webp"
@@ -102,22 +103,24 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="text-[14.5px] text-ink/70 transition-colors hover:text-ink"
+                  className="text-nav text-ink/70 transition-colors hover:text-ink"
                 >
                   {link.label}
                 </a>
               ))}
             </div>
             <LanguageSwitch locale={lang} dict={t.languageSwitch} />
-            <a
+            <Button
               href="#contacto"
-              className="rounded-[2px] bg-ink px-3.5 py-2.5 text-[13px] font-medium whitespace-nowrap text-white transition-colors hover:bg-azure hover:text-ink md:px-[22px] md:py-3 md:text-[14.5px]"
+              variant="dark"
+              size="compact"
+              className="whitespace-nowrap"
             >
               <span className="sm:hidden">{t.nav.ctaShort}</span>
               <span className="hidden sm:inline">{t.nav.cta}</span>
-            </a>
+            </Button>
           </nav>
-        </div>
+        </Container>
       </header>
 
       {/* HERO */}
@@ -143,36 +146,34 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         </div>
         <div className="absolute inset-0 z-10 bg-linear-0 from-ink/95 from-0% via-ink/45 via-45% to-ink/25" />
 
-        <div className={`${SHELL} relative z-20 pt-32 pb-20`}>
+        <Container className="relative z-20 pt-32 pb-20">
           <div className="fade-up mb-6 flex items-center gap-[13px]">
             <span className="h-px w-[34px] bg-azure" />
-            <span className={`${EYEBROW} text-azure`}>{t.hero.eyebrow}</span>
+            <Eyebrow>{t.hero.eyebrow}</Eyebrow>
           </div>
 
-          <h1 className="fade-up max-w-[1050px] text-[clamp(2.6rem,7vw,80px)] leading-[0.98] font-medium tracking-[-0.037em] text-balance">
+          <SectionTitle
+            as="h1"
+            size="2xl"
+            className="fade-up max-w-[1050px]"
+          >
             {t.hero.title}
-          </h1>
+          </SectionTitle>
 
           <div className="fade-up mt-9 flex flex-wrap items-end justify-between gap-8">
-            <p className="max-w-[560px] text-[clamp(1rem,2vw,20px)] leading-[1.55] text-pretty text-white/85">
+            <p className="max-w-[560px] text-lead text-pretty text-white/85">
               {t.hero.lead}
             </p>
             <div className="flex flex-wrap gap-3.5">
-              <a
-                href="#contacto"
-                className="rounded-[2px] bg-azure px-[34px] py-[17px] text-[16px] font-medium text-ink transition-colors hover:bg-white"
-              >
+              <Button href="#contacto" variant="accent">
                 {t.hero.ctaPrimary}
-              </a>
-              <a
-                href="#ubicacion"
-                className="rounded-[2px] border border-white/45 px-[34px] py-[17px] text-[16px] transition-colors hover:border-white hover:bg-white/10"
-              >
+              </Button>
+              <Button href="#ubicacion" variant="ghost">
                 {t.hero.ctaSecondary}
-              </a>
+              </Button>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* MARQUEE */}
@@ -199,7 +200,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
       {/* STATS */}
       <section className="bg-ink py-24 text-white">
-        <div className={SHELL}>
+        <Container>
           <div className="grid grid-cols-1 gap-px border border-white/15 bg-white/15 sm:grid-cols-3">
             {stats.map((stat) => (
               <Reveal key={stat.id} delay={stat.delay} className="bg-ink">
@@ -216,32 +217,30 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </Reveal>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* POR QUÉ */}
       <section id="porque" className="scroll-mt-20 bg-white py-24 md:py-32">
-        <div className={SHELL}>
+        <Container>
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
             <Reveal>
-              <span className={`${EYEBROW} text-azure`}>{t.why.eyebrow}</span>
+              <Eyebrow>{t.why.eyebrow}</Eyebrow>
               <div className="mt-[22px] h-0.5 w-[54px] bg-ink" />
             </Reveal>
             <Reveal delay={120}>
-              <h2 className="text-[clamp(2rem,4vw,46px)] leading-[1.1] font-medium tracking-[-0.035em] text-balance">
-                {t.why.title}
-              </h2>
-              <p className="mt-7 text-[clamp(1rem,1.8vw,19px)] leading-[1.65] text-pretty text-ink/70">
+              <SectionTitle>{t.why.title}</SectionTitle>
+              <p className="mt-7 text-lead text-pretty text-ink/70">
                 {t.why.body1}
               </p>
-              <p className="mt-5 text-[clamp(1rem,1.8vw,19px)] leading-[1.65] text-pretty text-ink/70">
+              <p className="mt-5 text-lead text-pretty text-ink/70">
                 {t.why.body2}
               </p>
             </Reveal>
           </div>
 
           <Reveal delay={80} className="mt-16">
-            <div className="relative overflow-hidden rounded-[4px]">
+            <div className="relative overflow-hidden rounded-card">
               <Image
                 src="/assets/rc-parks-aerea-2.webp"
                 alt={t.why.imageAlt}
@@ -251,7 +250,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 className="h-[320px] w-full object-cover md:h-[520px]"
               />
               <div className="absolute inset-x-0 bottom-0 bg-linear-0 from-ink/85 to-transparent px-6 py-8 text-white md:px-10">
-                <span className="text-[13px] tracking-[2px] text-azure uppercase">
+                <span className="text-label tracking-caption text-azure uppercase">
                   {t.why.captionEyebrow}
                 </span>
                 <div className="mt-1.5 text-[clamp(1.15rem,2.2vw,24px)] font-medium tracking-[-0.5px]">
@@ -260,21 +259,19 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </div>
             </div>
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       {/* AMENIDADES */}
       <section id="amenidades" className="scroll-mt-20 bg-white py-24 md:py-32">
-        <div className={SHELL}>
+        <Container>
           <Reveal className="mb-16">
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div>
-                <span className={`${EYEBROW} text-ink/50`}>
-                  {t.amenities.eyebrow}
-                </span>
-                <h2 className="mt-[18px] text-[clamp(2rem,4vw,48px)] leading-[1.05] font-medium tracking-[-0.035em]">
+                <Eyebrow tone="muted">{t.amenities.eyebrow}</Eyebrow>
+                <SectionTitle className="mt-[18px]">
                   {t.amenities.title}
-                </h2>
+                </SectionTitle>
               </div>
               <p className="max-w-[300px] text-[15px] leading-[1.55] text-ink/60">
                 {t.amenities.address}
@@ -285,7 +282,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           <div className="grid auto-rows-[232px] grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
             {/* Tile principal — ocupa 2x2 del bento */}
             <Reveal className="sm:col-span-2 sm:row-span-2">
-              <div className="relative h-full overflow-hidden rounded-[5px] transition-transform duration-400 hover:-translate-y-[5px]">
+              <div className="relative h-full overflow-hidden rounded-tile transition-transform duration-400 hover:-translate-y-[5px]">
                 <Image
                   src="/assets/rc-parks-aerea.webp"
                   alt={t.amenities.feature.imageAlt}
@@ -301,13 +298,13 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                   01
                 </span>
                 <div className="absolute inset-x-0 bottom-0 max-w-[560px] p-8 text-white md:p-10">
-                  <span className="text-xs font-medium tracking-[2px] text-azure uppercase">
+                  <span className="text-xs font-medium tracking-caption text-azure uppercase">
                     {t.amenities.feature.eyebrow}
                   </span>
-                  <h3 className="mt-2.5 text-[clamp(1.5rem,3vw,34px)] leading-[1.08] font-medium tracking-[-0.035em]">
+                  <h3 className="mt-2.5 text-display-md font-medium">
                     {t.amenities.feature.title}
                   </h3>
-                  <p className="mt-3 max-w-[440px] text-[16px] leading-[1.5] text-white/80">
+                  <p className="mt-3 max-w-[440px] text-body leading-[1.5] text-white/80">
                     {t.amenities.feature.body}
                   </p>
                 </div>
@@ -322,7 +319,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               return (
                 <Reveal key={tile.key} delay={tile.delay}>
                   <div
-                    className={`relative flex h-full flex-col justify-between overflow-hidden rounded-[5px] p-[30px] transition-[transform,background-color] duration-400 hover:-translate-y-[5px] ${tile.surface}`}
+                    className={`relative flex h-full flex-col justify-between overflow-hidden rounded-tile p-[30px] transition-[transform,background-color] duration-400 hover:-translate-y-[5px] ${tile.surface}`}
                   >
                     <span
                       className={`absolute top-3.5 right-6 text-[72px] leading-none font-medium tracking-[-3px] ${tile.ghost}`}
@@ -347,7 +344,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               );
             })}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* VISIÓN */}
@@ -358,20 +355,20 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         >
           R.C.
         </span>
-        <div className={`${SHELL} relative`}>
+        <Container className="relative">
           <Reveal>
             <div className="mb-7 flex items-center gap-[13px]">
               <span className="h-px w-[34px] bg-ink" />
-              <span className={EYEBROW}>{t.vision.eyebrow}</span>
+              <Eyebrow tone="inherit">{t.vision.eyebrow}</Eyebrow>
             </div>
           </Reveal>
           <Reveal delay={80}>
-            <h2 className="max-w-[1080px] text-[clamp(2.2rem,5vw,60px)] leading-[1.04] font-medium tracking-[-0.04em] text-balance">
+            <SectionTitle size="xl" className="max-w-[1080px]">
               {t.vision.quote}
-            </h2>
+            </SectionTitle>
           </Reveal>
           <Reveal delay={160}>
-            <p className="mt-7 max-w-[680px] text-[clamp(1.05rem,2vw,21px)] leading-[1.5] text-pretty text-ink/70">
+            <p className="mt-7 max-w-[680px] text-lead text-pretty text-ink/70">
               {t.vision.lead}
             </p>
           </Reveal>
@@ -379,7 +376,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <dl className="mt-14 flex flex-wrap gap-12 border-t border-ink/20 pt-7">
               {t.vision.facts.map((fact) => (
                 <div key={fact.term}>
-                  <dt className="text-[13px] tracking-[1.5px] text-ink/50 uppercase">
+                  <dt className="text-label tracking-label text-ink/50 uppercase">
                     {fact.term}
                   </dt>
                   <dd className="mt-1.5 text-[24px] font-medium tracking-[-0.5px]">
@@ -389,7 +386,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               ))}
             </dl>
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       {/* GALERÍA */}
@@ -397,16 +394,16 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         id="galeria"
         className="scroll-mt-20 bg-ink py-24 text-white md:py-32"
       >
-        <div className={SHELL}>
+        <Container>
           <Reveal className="mb-14">
-            <span className={`${EYEBROW} text-azure`}>{t.gallery.eyebrow}</span>
-            <h2 className="mt-[18px] max-w-[700px] text-[clamp(2rem,4vw,48px)] leading-[1.05] font-medium tracking-[-0.035em] text-balance">
+            <Eyebrow>{t.gallery.eyebrow}</Eyebrow>
+            <SectionTitle className="mt-[18px] max-w-[700px]">
               {t.gallery.title}
-            </h2>
+            </SectionTitle>
           </Reveal>
 
           <Reveal delay={60} className="mb-4">
-            <div className="relative overflow-hidden rounded-[4px]">
+            <div className="relative overflow-hidden rounded-card">
               <Image
                 src="/assets/rc-parks-exterior.webp"
                 alt={t.gallery.exteriorAlt}
@@ -416,7 +413,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 className="h-[340px] w-full object-cover md:h-[560px]"
               />
               <div className="absolute inset-x-0 bottom-0 bg-linear-0 from-ink/80 to-transparent px-6 py-7 md:px-9">
-                <span className="text-[13px] tracking-[2px] text-azure uppercase">
+                <span className="text-label tracking-caption text-azure uppercase">
                   {t.gallery.captionEyebrow}
                 </span>
                 <div className="mt-1 text-[clamp(1.1rem,2vw,22px)] font-medium">
@@ -428,7 +425,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <Reveal delay={80}>
-              <div className="overflow-hidden rounded-[4px]">
+              <div className="overflow-hidden rounded-card">
                 <Image
                   src="/assets/rc-parks-interior.webp"
                   alt={t.gallery.interiorAlt}
@@ -440,7 +437,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </div>
             </Reveal>
             <Reveal delay={140}>
-              <div className="overflow-hidden rounded-[4px]">
+              <div className="overflow-hidden rounded-card">
                 <Image
                   src="/assets/rc-parks-oficinas.webp"
                   alt={t.gallery.oficinasAlt}
@@ -452,20 +449,18 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </div>
             </Reveal>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* UBICACIÓN */}
       <section id="ubicacion" className="scroll-mt-20 bg-white py-24 md:py-32">
-        <div className={SHELL}>
+        <Container>
           <Reveal className="mb-14">
             <div className="max-w-[760px]">
-              <span className={`${EYEBROW} text-azure`}>
-                {t.location.eyebrow}
-              </span>
-              <h2 className="mt-[18px] text-[clamp(2rem,4vw,48px)] leading-[1.05] font-medium tracking-[-0.035em] text-balance">
+              <Eyebrow>{t.location.eyebrow}</Eyebrow>
+              <SectionTitle className="mt-[18px]">
                 {t.location.title}
-              </h2>
+              </SectionTitle>
             </div>
           </Reveal>
 
@@ -474,10 +469,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               {fronteras.map((frontera) => (
                 <div
                   key={frontera.id}
-                  className="flex items-center justify-between rounded-[3px] border border-stone px-[26px] py-[22px]"
+                  className="flex items-center justify-between rounded-field border border-stone px-[26px] py-[22px]"
                 >
                   <div>
-                    <div className="text-xs tracking-[1.5px] text-ink/45 uppercase">
+                    <div className="text-xs tracking-label text-ink/45 uppercase">
                       {t.location.borderLabel}
                     </div>
                     <div className="mt-1 text-[18px] font-medium">
@@ -494,7 +489,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
           <div className="grid items-start gap-12 lg:grid-cols-[1.05fr_0.95fr]">
             <Reveal>
-              <div className="overflow-hidden rounded-[4px] border border-stone bg-stone">
+              <div className="overflow-hidden rounded-card border border-stone bg-stone">
                 <Image
                   src="/assets/mapa-rc-parks.webp"
                   alt={t.location.mapAlt}
@@ -509,7 +504,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               <LocationTabs dict={t.location} locale={lang} />
             </Reveal>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* CONTACTO */}
@@ -517,13 +512,11 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         id="contacto"
         className="scroll-mt-20 bg-ink py-24 text-white md:py-32"
       >
-        <div className={`${SHELL} grid gap-12 lg:grid-cols-2 lg:gap-20`}>
+        <Container className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           <Reveal>
-            <span className={`${EYEBROW} text-azure`}>{t.contact.eyebrow}</span>
-            <h2 className="mt-5 text-[clamp(2.1rem,4.5vw,50px)] leading-[1.04] font-medium tracking-[-0.04em] text-balance">
-              {t.contact.title}
-            </h2>
-            <p className="mt-6 max-w-[440px] text-[clamp(1rem,1.8vw,19px)] leading-[1.6] text-pretty text-white/70">
+            <Eyebrow>{t.contact.eyebrow}</Eyebrow>
+            <SectionTitle className="mt-5">{t.contact.title}</SectionTitle>
+            <p className="mt-6 max-w-[440px] text-lead text-pretty text-white/70">
               {t.contact.lead}
             </p>
 
@@ -532,7 +525,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 href={`mailto:${contactInfo.email}`}
                 className="flex flex-col gap-1.5 transition-colors hover:text-azure"
               >
-                <span className="text-xs tracking-[1.5px] text-white/40 uppercase">
+                <span className="text-xs tracking-label text-white/40 uppercase">
                   {t.contact.emailLabel}
                 </span>
                 <span className="text-[20px] font-medium">
@@ -543,7 +536,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 location="contact_section"
                 className="flex flex-col gap-1.5 transition-colors hover:text-azure"
               >
-                <span className="text-xs tracking-[1.5px] text-white/40 uppercase">
+                <span className="text-xs tracking-label text-white/40 uppercase">
                   {t.contact.phoneLabel}
                 </span>
                 <span className="text-[20px] font-medium">
@@ -551,10 +544,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 </span>
               </WhatsAppTrigger>
               <div className="flex flex-col gap-1.5">
-                <span className="text-xs tracking-[1.5px] text-white/40 uppercase">
+                <span className="text-xs tracking-label text-white/40 uppercase">
                   {t.contact.addressLabel}
                 </span>
-                <span className="text-[16px] leading-[1.45] text-white/75">
+                <span className="text-body leading-[1.45] text-white/75">
                   {t.contact.addressLine1}
                   <br />
                   {t.contact.addressLine2}
@@ -566,21 +559,19 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           <Reveal delay={100}>
             <ContactForm dict={t.contact.form} locale={lang} />
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       {/* FOOTER */}
       <footer className="border-t border-white/10 bg-ink pt-18 pb-12 text-white">
-        <div
-          className={`${SHELL} flex flex-wrap items-start justify-between gap-10`}
-        >
+        <Container className="flex flex-wrap items-start justify-between gap-10">
           <div className="flex items-start gap-[22px]">
             <Image
               src="/assets/logo-rc-parks-blue-black.webp"
               alt="R.C. Parks"
               width={256}
               height={256}
-              className="size-16 rounded-[4px]"
+              className="size-16 rounded-card"
             />
             <p className="mt-0.5 max-w-[360px] text-[15px] leading-[1.55] text-white/55">
               {t.footer.tagline}
@@ -598,12 +589,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             </div>
             <SocialLinks label={t.footer.social} />
           </div>
-        </div>
-        <div
-          className={`${SHELL} mt-11 border-t border-white/10 pt-6 text-[13px] text-white/40`}
-        >
+        </Container>
+        <Container className="mt-11 border-t border-white/10 pt-6 text-label text-white/40">
           {t.footer.rights}
-        </div>
+        </Container>
       </footer>
     </div>
   );

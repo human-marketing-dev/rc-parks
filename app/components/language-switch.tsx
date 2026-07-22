@@ -25,7 +25,7 @@ export function LanguageSwitch({
 
   return (
     <div
-      className="flex items-center rounded-[2px] border border-ink/15 p-0.5"
+      className="flex items-center rounded-btn border border-ink/15 p-0.5"
       role="group"
       aria-label={dict.label}
     >

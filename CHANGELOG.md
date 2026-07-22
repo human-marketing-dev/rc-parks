@@ -6,9 +6,27 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/
 Las entradas se reconstruyeron a partir del historial de git; el proyecto aún no
 usa versionado semántico ni tags.
 
-## [No liberado] — PR #1
+## [2026-07-22]
 
-Trabajo en la rama `feat/webhook-ghl-atribucion` (todavía no fusionado a `main`).
+### Añadido
+
+- **Design system tokenizado.** Todos los valores de diseño viven como tokens en
+  el `@theme` de `globals.css` (colores —incluida la paleta de WhatsApp y el
+  rojo de error—, roles tipográficos `display-*`/`lead`/`body`/`label`, radios
+  `btn`/`field`/`card`/`tile`/`panel`, tracking y ancho `shell`), y las recetas
+  repetidas son primitivas reutilizables en `app/components/ui/`: `Container`,
+  `Eyebrow`, `SectionTitle`, `Button` (variantes `dark`/`accent`/`ghost`) y
+  `TextField`/`TextAreaField`. Documentado en
+  [`docs/design-system.md`](docs/design-system.md).
+
+### Cambiado
+
+- Todo el sitio consume tokens y primitivas (sin hex ni clamps sueltos en
+  componentes). Normalización deliberada de drift: títulos de sección
+  46/48/50px → `display-lg`; leads 19/20/21px → `lead`. Verificado con diff de
+  estilos computados: sin otros cambios visuales.
+
+## [2026-07-20 → 2026-07-21] — PRs #1, #2 y #3 (fusionados)
 
 ### Añadido
 

@@ -4,9 +4,8 @@ import { useState } from "react";
 import type { Dictionary, Locale } from "../dictionaries";
 import { trackGenerateLead } from "../lib/analytics";
 import { getAttributionPayload } from "../lib/attribution";
-
-const fieldClass =
-  "border-b border-field bg-transparent py-2.5 text-[16px] outline-none transition-colors focus:border-azure";
+import { Button } from "./ui/button";
+import { TextAreaField, TextField } from "./ui/field";
 
 type Status = "idle" | "sending" | "error";
 
@@ -68,7 +67,7 @@ export function ContactForm({
 
   if (sentName !== null) {
     return (
-      <div className="flex min-h-[440px] flex-col items-start justify-center gap-4 rounded-[4px] bg-white p-8 text-ink sm:p-12">
+      <div className="flex min-h-[440px] flex-col items-start justify-center gap-4 rounded-card bg-white p-8 text-ink sm:p-12">
         <span className="flex size-12 items-center justify-center rounded-full bg-azure text-2xl font-medium">
           ✓
         </span>
@@ -77,7 +76,7 @@ export function ContactForm({
             ? dict.thanksNamed.replace("{name}", sentName)
             : dict.thanks}
         </h3>
-        <p className="text-[16px] leading-[1.55] text-ink/60">
+        <p className="text-body leading-[1.55] text-ink/60">
           {dict.thanksBody}
         </p>
       </div>
@@ -87,7 +86,7 @@ export function ContactForm({
   const sending = status === "sending";
 
   return (
-    <div className="rounded-[4px] bg-white p-8 text-ink sm:p-12">
+    <div className="rounded-card bg-white p-8 text-ink sm:p-12">
       <form onSubmit={handleSubmit} className="flex flex-col gap-[22px]">
         {/* Honeypot: invisible para personas, tentador para bots. Va fuera de
             pantalla en vez de display:none porque varios bots omiten los campos
@@ -107,108 +106,75 @@ export function ContactForm({
         </div>
 
         <div className="grid gap-[22px] sm:grid-cols-2">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="nombre" className="text-[13px] text-ink/55">
-              {dict.name}
-            </label>
-            <input
-              id="nombre"
-              name="nombre"
-              required
-              maxLength={120}
-              placeholder={dict.namePlaceholder}
-              className={fieldClass}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="apellido" className="text-[13px] text-ink/55">
-              {dict.lastName}
-            </label>
-            <input
-              id="apellido"
-              name="apellido"
-              required
-              maxLength={120}
-              placeholder={dict.lastNamePlaceholder}
-              className={fieldClass}
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="empresa" className="text-[13px] text-ink/55">
-            {dict.company}
-          </label>
-          <input
-            id="empresa"
-            name="empresa"
-            maxLength={160}
-            placeholder={dict.companyPlaceholder}
-            className={fieldClass}
+          <TextField
+            id="nombre"
+            name="nombre"
+            label={dict.name}
+            required
+            maxLength={120}
+            placeholder={dict.namePlaceholder}
+          />
+          <TextField
+            id="apellido"
+            name="apellido"
+            label={dict.lastName}
+            required
+            maxLength={120}
+            placeholder={dict.lastNamePlaceholder}
           />
         </div>
+
+        <TextField
+          id="empresa"
+          name="empresa"
+          label={dict.company}
+          maxLength={160}
+          placeholder={dict.companyPlaceholder}
+        />
 
         <div className="grid gap-[22px] sm:grid-cols-2">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-[13px] text-ink/55">
-              {dict.email}
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              maxLength={200}
-              placeholder={dict.emailPlaceholder}
-              className={fieldClass}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="telefono" className="text-[13px] text-ink/55">
-              {dict.phone}
-            </label>
-            <input
-              id="telefono"
-              name="telefono"
-              type="tel"
-              maxLength={40}
-              placeholder={dict.phonePlaceholder}
-              className={fieldClass}
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="mensaje" className="text-[13px] text-ink/55">
-            {dict.message}
-          </label>
-          <textarea
-            id="mensaje"
-            name="mensaje"
-            rows={3}
-            maxLength={2000}
-            placeholder={dict.messagePlaceholder}
-            className={`${fieldClass} resize-none`}
+          <TextField
+            id="email"
+            name="email"
+            type="email"
+            label={dict.email}
+            required
+            maxLength={200}
+            placeholder={dict.emailPlaceholder}
+          />
+          <TextField
+            id="telefono"
+            name="telefono"
+            type="tel"
+            label={dict.phone}
+            maxLength={40}
+            placeholder={dict.phonePlaceholder}
           />
         </div>
 
+        <TextAreaField
+          id="mensaje"
+          name="mensaje"
+          label={dict.message}
+          rows={3}
+          maxLength={2000}
+          placeholder={dict.messagePlaceholder}
+        />
+
         {status === "error" ? (
-          <p
-            role="alert"
-            className="text-[14px] leading-[1.5] text-[#B42318]"
-          >
+          <p role="alert" className="text-sm leading-[1.5] text-error">
             {dict.error}
           </p>
         ) : null}
 
-        <button
+        <Button
           type="submit"
           disabled={sending}
           aria-busy={sending}
-          className="mt-2.5 cursor-pointer rounded-[2px] bg-ink p-[17px] text-[16px] font-medium text-white transition-colors hover:bg-azure hover:text-ink disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-ink disabled:hover:text-white"
+          className="mt-2.5 w-full"
         >
           {sending ? dict.sending : dict.submit}
-        </button>
+        </Button>
       </form>
     </div>
   );

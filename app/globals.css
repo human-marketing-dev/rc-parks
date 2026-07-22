@@ -1,15 +1,101 @@
 @import "tailwindcss";
 
+/**
+ * Design system del sitio (Tailwind v4, CSS-first).
+ *
+ * Todos los tokens viven en este @theme y generan utilidades con nombre:
+ * `--color-azure` → `bg-azure`, `--radius-btn` → `rounded-btn`,
+ * `--text-display-lg` → `text-display-lg`, `--container-shell` → `max-w-shell`.
+ *
+ * Reglas de juego (el detalle completo está en docs/design-system.md):
+ *  - Ningún hex fuera de este archivo: si un color nuevo aparece, primero se
+ *    nombra aquí.
+ *  - Los roles tipográficos (display-*, lead, body, label…) empaquetan tamaño,
+ *    interlineado, tracking y peso: un heading nuevo no inventa su clamp.
+ *  - Un valor arbitrario (`text-[15px]`) es aceptable mientras sea un caso
+ *    único; en cuanto se repite en dos lugares, se promueve a token.
+ */
 @theme {
+  /* ── Color · marca ─────────────────────────────────────────── */
   --color-ink: #0a0a0a;
   --color-azure: #4ebfe0;
+
+  /* ── Color · neutros de superficie ─────────────────────────── */
   --color-stone: #e8e6e4;
   --color-stone-dark: #dedcda;
   --color-hairline: #f0efec;
   --color-field: #dad8d5;
 
+  /* ── Color · estados ───────────────────────────────────────── */
+  --color-error: #b42318;
+  --color-online: #4ade80;
+
+  /* ── Color · WhatsApp (paleta del widget) ──────────────────── */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-hover: #1ebe5a;
+  --color-whatsapp-header: #128c7e;
+  --color-whatsapp-chat: #ece5dd;
+
+  /* ── Tipografía ────────────────────────────────────────────── */
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
+  /* Roles de texto. Los interlineados 1.5 replican la herencia del body para
+     que usar el token dé exactamente lo mismo que el valor suelto que sustituye. */
+  --text-eyebrow: 12.5px;
+  --text-eyebrow--line-height: 1.5;
+  --text-eyebrow--letter-spacing: 3px;
+  --text-eyebrow--font-weight: 500;
+
+  --text-label: 13px;
+  --text-label--line-height: 1.5;
+
+  --text-nav: 14.5px;
+  --text-nav--line-height: 1.5;
+
+  /* 16px también evita el zoom automático de iOS al enfocar inputs. */
+  --text-body: 16px;
+  --text-body--line-height: 1.5;
+
+  --text-lead: clamp(1rem, 2vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+
+  /* Escala display: los títulos comparten rol aunque vivan en secciones
+     distintas. Antes cada sección traía su propio clamp (46/48/50px…). */
+  --text-display-md: clamp(1.5rem, 3vw, 2.125rem);
+  --text-display-md--line-height: 1.08;
+  --text-display-md--letter-spacing: -0.035em;
+  --text-display-md--font-weight: 500;
+
+  --text-display-lg: clamp(2rem, 4vw, 3rem);
+  --text-display-lg--line-height: 1.05;
+  --text-display-lg--letter-spacing: -0.035em;
+  --text-display-lg--font-weight: 500;
+
+  --text-display-xl: clamp(2.2rem, 5vw, 3.75rem);
+  --text-display-xl--line-height: 1.04;
+  --text-display-xl--letter-spacing: -0.04em;
+  --text-display-xl--font-weight: 500;
+
+  --text-display-2xl: clamp(2.6rem, 7vw, 5rem);
+  --text-display-2xl--line-height: 0.98;
+  --text-display-2xl--letter-spacing: -0.037em;
+  --text-display-2xl--font-weight: 500;
+
+  /* ── Radios (escala corta, por uso) ────────────────────────── */
+  --radius-btn: 2px;
+  --radius-field: 3px;
+  --radius-card: 4px;
+  --radius-tile: 5px;
+  --radius-panel: 14px;
+
+  /* ── Tracking de rótulos en mayúsculas ─────────────────────── */
+  --tracking-caption: 2px;
+  --tracking-label: 1.5px;
+
+  /* ── Layout ────────────────────────────────────────────────── */
+  --container-shell: 1400px;
+
+  /* ── Animaciones ───────────────────────────────────────────── */
   --animate-marquee: marquee 30s linear infinite;
   --animate-kenburns: kenburns 14s ease-out forwards;
 

@@ -151,7 +151,7 @@ function FloatingButton({
       data-wa-fab
       onClick={onClick}
       aria-label={label}
-      className="wa-fab fixed right-5 bottom-5 z-[60] flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/25 transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366] md:right-7 md:bottom-7"
+      className="wa-fab fixed right-5 bottom-5 z-[60] flex size-14 items-center justify-center rounded-full bg-whatsapp text-white shadow-lg shadow-black/25 transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-whatsapp md:right-7 md:bottom-7"
     >
       <WhatsAppGlyph className="size-7" />
     </button>
@@ -206,9 +206,9 @@ function WhatsAppPanel({
       ref={panelRef}
       role="dialog"
       aria-labelledby="wa-title"
-      className="wa-card fixed right-5 bottom-24 z-[65] w-[calc(100vw-2.5rem)] max-w-[330px] overflow-hidden rounded-[14px] bg-white shadow-2xl shadow-black/30 md:right-7 md:bottom-28"
+      className="wa-card fixed right-5 bottom-24 z-[65] w-[calc(100vw-2.5rem)] max-w-[330px] overflow-hidden rounded-panel bg-white shadow-2xl shadow-black/30 md:right-7 md:bottom-28"
     >
-      <div className="flex items-center gap-3 bg-[#128C7E] px-4 py-3 text-white">
+      <div className="flex items-center gap-3 bg-whatsapp-header px-4 py-3 text-white">
         <span className="size-9 flex-none overflow-hidden rounded-full bg-white/15">
           <Image
             src="/assets/logo-rc-parks-blue-black.webp"
@@ -223,7 +223,7 @@ function WhatsAppPanel({
             {dict.title}
           </div>
           <div className="flex items-center gap-1.5 text-[12px] text-white/75">
-            <span className="size-1.5 rounded-full bg-[#4ade80]" />
+            <span className="size-1.5 rounded-full bg-online" />
             {dict.description}
           </div>
         </div>
@@ -246,7 +246,7 @@ function WhatsAppPanel({
         </button>
       </div>
 
-      <div className="bg-[#ece5dd] px-3.5 py-4">
+      <div className="bg-whatsapp-chat px-3.5 py-4">
         <div className="max-w-[92%] rounded-[10px] rounded-tl-[3px] bg-white px-3.5 py-2.5 text-[13.5px] leading-[1.5] text-ink/80 shadow-sm">
           {dict.greeting}
         </div>
@@ -259,7 +259,7 @@ function WhatsAppPanel({
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleOpen}
-          className="flex w-full items-center justify-center gap-2.5 rounded-[9px] bg-[#25D366] p-[13px] text-[15px] font-medium text-white transition-colors hover:bg-[#1ebe5a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+          className="flex w-full items-center justify-center gap-2.5 rounded-[9px] bg-whatsapp p-[13px] text-[15px] font-medium text-white transition-colors hover:bg-whatsapp-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-whatsapp"
         >
           <WhatsAppGlyph className="size-[18px]" />
           {dict.open}

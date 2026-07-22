@@ -23,7 +23,7 @@ export function SocialLinks({ label }: { label: string }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={social.name}
-            className="flex size-9 items-center justify-center rounded-[2px] border border-white/15 text-white/70 transition-colors hover:border-azure hover:bg-azure hover:text-ink"
+            className="flex size-9 items-center justify-center rounded-btn border border-white/15 text-white/70 transition-colors hover:border-azure hover:bg-azure hover:text-ink"
           >
             <svg
               viewBox="0 0 24 24"
