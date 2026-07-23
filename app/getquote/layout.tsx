@@ -25,7 +25,7 @@ export default function GetQuoteLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SiteShell lang="en" dict={dict}>
+    <SiteShell lang="en" dict={dict} showWhatsAppFloating={false}>
       {children}
     </SiteShell>
   );

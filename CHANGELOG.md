@@ -23,6 +23,10 @@ usa versionado semántico ni tags.
     múltiples root layouts de Next); `SiteShell` centraliza `<html>/<body>` + GTM
     + WhatsApp para los tres layouts. Excluidas del matcher de `proxy.ts` para no
     redirigirse al idioma del navegador.
+  - El **botón flotante (burbuja) de WhatsApp se oculta** en las landings
+    (`SiteShell` acepta `showWhatsAppFloating`, en `false` para /cotiza y
+    /getquote) para no competir con el formulario; el panel sigue disponible al
+    tocar el contacto de la sección de cierre. En el home sigue apareciendo.
 - **Aviso de privacidad bilingüe** en `/es/aviso-de-privacidad` y
   `/en/aviso-de-privacidad` (LFPDPPP), con los datos del responsable
   (Conglomerado RC, S.A. de C.V.) y adaptado a lo que el sitio realmente

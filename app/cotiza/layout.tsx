@@ -24,7 +24,7 @@ export default function CotizaLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SiteShell lang="es" dict={dict}>
+    <SiteShell lang="es" dict={dict} showWhatsAppFloating={false}>
       {children}
     </SiteShell>
   );

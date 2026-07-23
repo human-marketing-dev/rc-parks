@@ -17,10 +17,17 @@ export function SiteShell({
   lang,
   dict,
   children,
+  showWhatsAppFloating = true,
 }: {
   lang: Locale;
   dict: Dictionary;
   children: React.ReactNode;
+  /**
+   * Muestra el botón flotante (burbuja) de WhatsApp. Las landings de campaña
+   * (/cotiza, /getquote) lo apagan para no competir con su formulario; el panel
+   * sigue disponible vía `WhatsAppTrigger`.
+   */
+  showWhatsAppFloating?: boolean;
 }) {
   return (
     <html lang={lang} className="h-full antialiased">
@@ -31,6 +38,7 @@ export function SiteShell({
         <WhatsAppProvider
           dict={dict.whatsapp}
           number={contactInfo.whatsappNumber}
+          showFloating={showWhatsAppFloating}
         >
           {children}
         </WhatsAppProvider>
