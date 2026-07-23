@@ -27,13 +27,22 @@ export function ContactForm({
   dict,
   locale,
   consent,
+  idPrefix = "",
 }: {
   dict: Dictionary["contact"]["form"];
   locale: Locale;
   consent?: ConsentCopy;
+  /**
+   * Prefijo para los `id` de los campos. Necesario cuando hay más de un
+   * formulario en la misma página (la landing de renta lo monta en el hero y en
+   * contacto): sin él los `id` se repiten y cada <label> apunta al primer campo
+   * que coincide, no al suyo.
+   */
+  idPrefix?: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [sentName, setSentName] = useState<string | null>(null);
+  const fieldId = (name: string) => `${idPrefix}${name}`;
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -111,9 +120,9 @@ export function ContactForm({
           aria-hidden="true"
           className="absolute left-[-9999px] h-px w-px overflow-hidden"
         >
-          <label htmlFor="website">Website</label>
+          <label htmlFor={fieldId("website")}>Website</label>
           <input
-            id="website"
+            id={fieldId("website")}
             name="website"
             type="text"
             tabIndex={-1}
@@ -123,7 +132,7 @@ export function ContactForm({
 
         <div className="grid gap-[22px] sm:grid-cols-2">
           <TextField
-            id="nombre"
+            id={fieldId("nombre")}
             name="nombre"
             label={dict.name}
             required
@@ -131,7 +140,7 @@ export function ContactForm({
             placeholder={dict.namePlaceholder}
           />
           <TextField
-            id="apellido"
+            id={fieldId("apellido")}
             name="apellido"
             label={dict.lastName}
             required
@@ -141,7 +150,7 @@ export function ContactForm({
         </div>
 
         <TextField
-          id="empresa"
+          id={fieldId("empresa")}
           name="empresa"
           label={dict.company}
           maxLength={160}
@@ -150,7 +159,7 @@ export function ContactForm({
 
         <div className="grid gap-[22px] sm:grid-cols-2">
           <TextField
-            id="email"
+            id={fieldId("email")}
             name="email"
             type="email"
             label={dict.email}
@@ -159,7 +168,7 @@ export function ContactForm({
             placeholder={dict.emailPlaceholder}
           />
           <TextField
-            id="telefono"
+            id={fieldId("telefono")}
             name="telefono"
             type="tel"
             label={dict.phone}
@@ -169,7 +178,7 @@ export function ContactForm({
         </div>
 
         <TextAreaField
-          id="mensaje"
+          id={fieldId("mensaje")}
           name="mensaje"
           label={dict.message}
           rows={3}

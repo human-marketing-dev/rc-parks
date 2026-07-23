@@ -176,6 +176,15 @@ export const en: Dictionary = {
     },
   },
 
+  rental: {
+    metaTitle: "Industrial Warehouse Rental in Nuevo León | R.C. Parks",
+    metaDescription:
+      "Triple A industrial warehouses for lease in Ciénega de Flores, N.L. From 161,450 to 723,550 sq ft, CFE plant across the street and 24/7 security. Request information.",
+    heroTitle: "Industrial Warehouse Rental in Nuevo León",
+    cta: "Request information",
+    ctaShort: "Request",
+  },
+
   footer: {
     tagline:
       "Redefining industrial logistics across Northeast Mexico and Texas. Triple A spaces for the new era of manufacturing.",

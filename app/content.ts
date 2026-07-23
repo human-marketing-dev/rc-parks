@@ -28,9 +28,15 @@ export function formatDistance(km: number, locale: Locale): string {
  * Superficies: se guardan en m² y se convierten a pies cuadrados en inglés.
  * La unidad ("m²" / "sq ft") la pone el diccionario.
  */
-export function formatArea(m2: number, locale: Locale): string {
-  const value = locale === "en" ? Math.round(m2 * SQFT_PER_M2) : m2;
-  return value.toLocaleString("en-US");
+export function formatArea(
+  m2: number,
+  locale: Locale,
+  sqftOverride?: number,
+): string {
+  if (locale !== "en") return m2.toLocaleString("en-US");
+
+  const sqft = sqftOverride ?? Math.round(m2 * SQFT_PER_M2);
+  return sqft.toLocaleString("en-US");
 }
 
 export type Stat = {
@@ -38,12 +44,39 @@ export type Stat = {
   delay: number;
   /** Superficie en m²: se convierte a pies cuadrados en inglés. */
   m2?: number;
+  /**
+   * Cifra oficial en pies cuadrados. Cuando está presente gana sobre la
+   * conversión automática de `m2`: la cifra comercial en sq ft no siempre es la
+   * conversión exacta del m² redondeado que se publica en español.
+   */
+  sqft?: number;
   /** Valor sin unidad métrica (KW): igual en ambos idiomas. */
   value?: string;
 };
 
 export const stats: Stat[] = [
-  { id: "area", m2: 67000, delay: 0 },
+  { id: "area", m2: 67000, sqft: 723550, delay: 0 },
+  { id: "power", value: "2,400", delay: 90 },
+  { id: "clean", value: "900", delay: 180 },
+];
+
+/**
+ * Strip de datos de la landing de renta. Solo cambia el primer dato: en lugar
+ * del área total muestra el rango arrendable. Va como texto por idioma —y no
+ * como número convertible— porque la cifra en sq ft es la oficial del cliente
+ * (no la conversión exacta del rango en m²) y el separador difiere: "-" vs "to".
+ */
+export const rentalStats: {
+  id: Stat["id"];
+  delay: number;
+  range?: Record<Locale, string>;
+  value?: string;
+}[] = [
+  {
+    id: "area",
+    range: { es: "15,000 - 67,000", en: "161,450 to 723,550" },
+    delay: 0,
+  },
   { id: "power", value: "2,400", delay: 90 },
   { id: "clean", value: "900", delay: 180 },
 ];

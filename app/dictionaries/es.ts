@@ -280,6 +280,20 @@ export const es = {
     },
   },
 
+  /**
+   * Landing de renta (/renta-de-naves-industriales). Solo sobrescribe lo que
+   * cambia respecto al home; el resto de secciones reusa este mismo diccionario.
+   */
+  rental: {
+    metaTitle: "Renta de Naves Industriales en Nuevo León | R.C. Parks",
+    metaDescription:
+      "Naves industriales Triple A en renta en Ciénega de Flores, N.L. Desde 15,000 hasta 67,000 m², planta de CFE frente al parque y vigilancia 24/7. Solicita información.",
+    heroTitle: "Renta de Naves Industriales en Nuevo León",
+    cta: "Solicitar información",
+    /** Versión corta del CTA para el header en móvil. */
+    ctaShort: "Solicitar",
+  },
+
   footer: {
     tagline:
       "Redefiniendo la logística industrial del Noreste de México y Texas. Espacios Triple A para la nueva era de manufactura.",

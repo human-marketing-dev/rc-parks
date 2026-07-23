@@ -221,7 +221,12 @@ export function QuoteLanding({ lang }: { lang: Locale }) {
                   {q.hero.formSub}
                 </p>
               </div>
-              <ContactForm dict={formDict} locale={lang} consent={consent} />
+              <ContactForm
+                dict={formDict}
+                locale={lang}
+                consent={consent}
+                idPrefix="hero-"
+              />
             </div>
           </div>
         </Container>

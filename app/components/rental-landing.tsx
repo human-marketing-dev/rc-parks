@@ -1,90 +1,117 @@
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { ContactForm } from "../components/contact-form";
-import { LanguageSwitch } from "../components/language-switch";
-import { LocationTabs } from "../components/location-tabs";
-import { Reveal } from "../components/reveal";
-import { SocialLinks } from "../components/social-links";
-import { Button } from "../components/ui/button";
-import { Container } from "../components/ui/container";
-import { Eyebrow } from "../components/ui/eyebrow";
-import { SectionTitle } from "../components/ui/section-title";
-import { WhatsAppTrigger } from "../components/whatsapp-provider";
+import { ContactForm } from "./contact-form";
+import { LocationTabs } from "./location-tabs";
+import { Reveal } from "./reveal";
+import { SocialLinks } from "./social-links";
+import { Button } from "./ui/button";
+import { Container } from "./ui/container";
+import { Eyebrow } from "./ui/eyebrow";
+import { SectionTitle } from "./ui/section-title";
+import { WhatsAppTrigger } from "./whatsapp-provider";
 import {
   contactInfo,
-  formatArea,
   formatDistance,
   fronteras,
-  stats,
+  rentalStats,
 } from "../content";
-import { getDictionary, isLocale, type Dictionary } from "../dictionaries";
+import { getDictionary, type Locale } from "../dictionaries";
 
-/** Solo la apariencia del bento: los textos salen del diccionario. */
-const tileStyles = [
-  {
-    key: "cfe",
-    num: "02",
-    delay: 60,
-    surface: "bg-azure text-ink",
-    ghost: "text-ink/12",
-    dot: "bg-ink",
-    body: "text-ink/70",
-  },
-  {
-    key: "security",
-    num: "03",
-    delay: 120,
-    surface: "bg-ink text-white",
-    ghost: "text-white/10",
-    dot: "bg-azure",
-    body: "text-white/60",
-  },
-  {
-    key: "offices",
-    num: "04",
-    delay: 0,
-    surface: "bg-stone text-ink hover:bg-stone-dark",
-    ghost: "text-ink/10",
-    dot: "bg-azure",
-    body: "text-ink/55",
-  },
-  {
-    key: "ramps",
-    num: "05",
-    delay: 60,
-    surface: "bg-stone text-ink hover:bg-stone-dark",
-    ghost: "text-ink/10",
-    dot: "bg-azure",
-    body: "text-ink/55",
-  },
-  {
-    key: "homes",
-    num: "06",
-    delay: 120,
-    surface: "bg-ink text-white",
-    ghost: "text-white/10",
-    dot: "bg-azure",
-    body: "text-white/60",
-  },
+/**
+ * Landing de renta (/renta-de-naves-industriales). Duplica el home pero
+ * orientada a conversión: header sin navegación (para no fugar el tráfico),
+ * formulario ya visible en el hero, rango arrendable en la strip y amenidades
+ * en formato ícono + texto en lugar del bento con imagen.
+ */
+
+/** Íconos de amenidad, en línea y heredando color con currentColor. */
+function AmenityIcon({ id }: { id: string }) {
+  const common = {
+    width: 28,
+    height: 28,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.5,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+
+  switch (id) {
+    case "warehouse": // nave industrial: techo a dos aguas + portones
+      return (
+        <svg {...common}>
+          <path d="M3 21V9.5L12 4l9 5.5V21" />
+          <path d="M3 21h18" />
+          <path d="M9 21v-6h6v6" />
+          <path d="M9 15h6" />
+        </svg>
+      );
+    case "cfe": // planta / subestación eléctrica
+      return (
+        <svg {...common}>
+          <path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+          <path d="M7 18h1M12 18h1M17 18h1" />
+        </svg>
+      );
+    case "security": // escudo con check: vigilancia y acceso controlado
+      return (
+        <svg {...common}>
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+          <path d="m9 12 2 2 4-4" />
+        </svg>
+      );
+    case "offices": // sala de juntas: mesa y sillas
+      return (
+        <svg {...common}>
+          <rect x="3" y="9" width="18" height="6" rx="1" />
+          <path d="M7 9V7M17 9V7M7 17v-2M17 17v-2" />
+          <path d="M5 7h4M15 7h4M5 17h4M15 17h4" />
+        </svg>
+      );
+    case "ramps": // andén con rampa: carga y descarga
+      return (
+        <svg {...common}>
+          <path d="M2 17h11V7H2z" />
+          <path d="M13 11h4l4 4v2h-8z" />
+          <circle cx="7" cy="19" r="1.6" />
+          <circle cx="17" cy="19" r="1.6" />
+        </svg>
+      );
+    case "homes": // vivienda: mano de obra alrededor
+      return (
+        <svg {...common}>
+          <path d="M3 11.5 11 5l8 6.5" />
+          <path d="M5 10.5V20h12v-9.5" />
+          <path d="M9.5 20v-4.5h3V20" />
+          <path d="M19 8V5h-2.5" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
+
+/**
+ * Las 6 amenidades en un solo arreglo. `feature` era el tile grande con imagen
+ * del home; aquí baja al mismo formato ícono + texto que las demás.
+ */
+const amenities = [
+  { key: "feature", icon: "warehouse", delay: 0 },
+  { key: "cfe", icon: "cfe", delay: 60 },
+  { key: "security", icon: "security", delay: 120 },
+  { key: "offices", icon: "offices", delay: 0 },
+  { key: "ramps", icon: "ramps", delay: 60 },
+  { key: "homes", icon: "homes", delay: 120 },
 ] as const;
 
-export default async function Home({ params }: PageProps<"/[lang]">) {
-  const { lang } = await params;
-  if (!isLocale(lang)) notFound();
-
+export function RentalLanding({ lang }: { lang: Locale }) {
   const t = getDictionary(lang);
-
-  const navLinks = [
-    { href: "#porque", label: t.nav.why },
-    { href: "#amenidades", label: t.nav.amenities },
-    { href: "#ubicacion", label: t.nav.location },
-    { href: "#galeria", label: t.nav.gallery },
-  ];
 
   return (
     <div className="overflow-x-hidden">
-      {/* NAV */}
+      {/* NAV — sin enlaces de navegación: el único destino es el formulario. */}
       <header className="sticky top-0 z-50 border-b border-stone bg-white/90 backdrop-blur-md">
         <Container className="flex h-[78px] items-center justify-between">
           <a href="#top" className="flex items-center">
@@ -97,41 +124,25 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               className="h-[22px] w-auto md:h-[26px]"
             />
           </a>
-          {/* En móvil conviven selector y CTA: ambos se compactan para no desbordar. */}
-          <nav className="flex items-center gap-2 md:gap-9">
-            <div className="hidden items-center gap-9 md:flex">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-nav text-ink/70 transition-colors hover:text-ink"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-            <LanguageSwitch locale={lang} dict={t.languageSwitch} />
-            <Button
-              href="#contacto"
-              variant="dark"
-              size="compact"
-              className="whitespace-nowrap"
-            >
-              <span className="sm:hidden">{t.nav.ctaShort}</span>
-              <span className="hidden sm:inline">{t.nav.cta}</span>
-            </Button>
-          </nav>
+          <Button
+            href="#contacto"
+            variant="dark"
+            size="compact"
+            className="whitespace-nowrap"
+          >
+            <span className="sm:hidden">{t.rental.ctaShort}</span>
+            <span className="hidden sm:inline">{t.rental.cta}</span>
+          </Button>
         </Container>
       </header>
 
-      {/* HERO */}
+      {/* HERO — información a la izquierda, formulario a la derecha. */}
       <section
         id="top"
-        className="relative flex min-h-[90vh] items-end overflow-hidden bg-ink text-white"
+        className="relative overflow-hidden bg-ink text-white"
       >
         <div className="absolute inset-0 z-0 overflow-hidden">
-          {/* Video de fondo decorativo: el <h1> lleva el significado, así que va
-              aria-hidden. El poster cubre la carga y el fallback si no reproduce. */}
+          {/* Video decorativo: el <h1> lleva el significado, por eso aria-hidden. */}
           <video
             className="h-full w-full object-cover opacity-[0.62]"
             autoPlay
@@ -145,34 +156,32 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <source src="/assets/hero.mp4" type="video/mp4" />
           </video>
         </div>
-        <div className="absolute inset-0 z-10 bg-linear-0 from-ink/95 from-0% via-ink/45 via-45% to-ink/25" />
+        <div className="absolute inset-0 z-10 bg-linear-0 from-ink/95 from-0% via-ink/60 via-45% to-ink/40" />
 
-        <Container className="relative z-20 pt-32 pb-20">
-          <div className="fade-up mb-6 flex items-center gap-[13px]">
-            <span className="h-px w-[34px] bg-azure" />
-            <Eyebrow>{t.hero.eyebrow}</Eyebrow>
-          </div>
+        <Container className="relative z-20 grid items-center gap-12 pt-28 pb-20 lg:grid-cols-[1fr_minmax(0,520px)] lg:gap-16 lg:pt-32">
+          <div>
+            <div className="fade-up mb-6 flex items-center gap-[13px]">
+              <span className="h-px w-[34px] bg-azure" />
+              <Eyebrow>{t.hero.eyebrow}</Eyebrow>
+            </div>
 
-          <SectionTitle
-            as="h1"
-            size="2xl"
-            className="fade-up max-w-[1050px]"
-          >
-            {t.hero.title}
-          </SectionTitle>
+            <SectionTitle as="h1" size="xl" className="fade-up">
+              {t.rental.heroTitle}
+            </SectionTitle>
 
-          <div className="fade-up mt-9 flex flex-wrap items-end justify-between gap-8">
-            <p className="max-w-[560px] text-lead text-pretty text-white/85">
+            <p className="fade-up mt-7 max-w-[560px] text-lead text-pretty text-white/85">
               {t.hero.lead}
             </p>
-            <div className="flex flex-wrap gap-3.5">
-              <Button href="#contacto" variant="accent">
-                {t.hero.ctaPrimary}
-              </Button>
-              <Button href="#ubicacion" variant="ghost">
-                {t.hero.ctaSecondary}
-              </Button>
-            </div>
+          </div>
+
+          <div className="fade-up">
+            {/* idPrefix: hay dos formularios en la página (hero y contacto) y
+                los `id` no pueden repetirse o los <label> apuntan al otro. */}
+            <ContactForm
+              dict={t.contact.form}
+              locale={lang}
+              idPrefix="hero-"
+            />
           </div>
         </Container>
       </section>
@@ -188,7 +197,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             >
               {t.marquee.map((word) => (
                 <span key={word}>
-                  <span className="text-[15px] font-medium tracking-[0.5px] uppercase">
+                  <span className="text-body font-medium tracking-[0.5px] uppercase">
                     {word}
                   </span>
                   <span className="mx-7 inline-block size-[9px] rounded-full bg-ink align-middle" />
@@ -199,17 +208,15 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         </div>
       </div>
 
-      {/* STATS */}
+      {/* STATS — el primer dato es el rango arrendable, no el área total. */}
       <section className="bg-ink py-24 text-white">
         <Container>
           <div className="grid grid-cols-1 gap-px border border-white/15 bg-white/15 sm:grid-cols-3">
-            {stats.map((stat) => (
+            {rentalStats.map((stat) => (
               <Reveal key={stat.id} delay={stat.delay} className="bg-ink">
                 <div className="px-6 py-10 md:px-[34px] md:py-[46px]">
-                  <div className="text-[clamp(2.2rem,4vw,54px)] leading-none font-medium tracking-[-0.046em] whitespace-nowrap text-azure">
-                    {stat.m2 !== undefined
-                      ? formatArea(stat.m2, lang, stat.sqft)
-                      : stat.value}
+                  <div className="text-[clamp(1.7rem,3.2vw,44px)] leading-none font-medium tracking-[-0.046em] whitespace-nowrap text-azure">
+                    {stat.range ? stat.range[lang] : stat.value}
                   </div>
                   <div className="mt-3.5 text-[15px] leading-[1.4] text-white/60">
                     {t.stats[stat.id]}
@@ -263,7 +270,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         </Container>
       </section>
 
-      {/* AMENIDADES */}
+      {/* AMENIDADES — ícono + texto, sin imagen. */}
       <section id="amenidades" className="scroll-mt-20 bg-white py-24 md:py-32">
         <Container>
           <Reveal className="mb-16">
@@ -280,63 +287,30 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             </div>
           </Reveal>
 
-          <div className="grid auto-rows-[232px] grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Tile principal — ocupa 2x2 del bento */}
-            <Reveal className="sm:col-span-2 sm:row-span-2">
-              <div className="relative h-full overflow-hidden rounded-tile transition-transform duration-400 hover:-translate-y-[5px]">
-                <Image
-                  src="/assets/rc-parks-aerea.webp"
-                  alt={t.amenities.feature.imageAlt}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 66vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-linear-0 from-ink/90 from-0% via-ink/15 via-60% to-ink/35" />
-                <span
-                  className="absolute top-6 right-[30px] text-[120px] leading-none font-medium tracking-[-4px] text-white/15"
-                  aria-hidden
-                >
-                  01
-                </span>
-                <div className="absolute inset-x-0 bottom-0 max-w-[560px] p-8 text-white md:p-10">
-                  <span className="text-xs font-medium tracking-caption text-azure uppercase">
-                    {t.amenities.feature.eyebrow}
-                  </span>
-                  <h3 className="mt-2.5 text-display-md font-medium">
-                    {t.amenities.feature.title}
-                  </h3>
-                  <p className="mt-3 max-w-[440px] text-body leading-[1.5] text-white/80">
-                    {t.amenities.feature.body}
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {tileStyles.map((tile) => {
+          <div className="grid grid-cols-1 gap-px border border-stone bg-stone sm:grid-cols-2 lg:grid-cols-3">
+            {amenities.map((amenity) => {
               const copy =
-                t.amenities.tiles[
-                  tile.key as keyof Dictionary["amenities"]["tiles"]
-                ];
+                amenity.key === "feature"
+                  ? t.amenities.feature
+                  : t.amenities.tiles[
+                      amenity.key as keyof typeof t.amenities.tiles
+                    ];
+
               return (
-                <Reveal key={tile.key} delay={tile.delay}>
-                  <div
-                    className={`relative flex h-full flex-col justify-between overflow-hidden rounded-tile p-[30px] transition-[transform,background-color] duration-400 hover:-translate-y-[5px] ${tile.surface}`}
-                  >
-                    <span
-                      className={`absolute top-3.5 right-6 text-[72px] leading-none font-medium tracking-[-3px] ${tile.ghost}`}
-                      aria-hidden
-                    >
-                      {tile.num}
+                <Reveal
+                  key={amenity.key}
+                  delay={amenity.delay}
+                  className="bg-white"
+                >
+                  <div className="flex h-full flex-col gap-5 p-8 transition-colors duration-300 hover:bg-stone/40 md:p-10">
+                    <span className="text-azure">
+                      <AmenityIcon id={amenity.icon} />
                     </span>
-                    <span
-                      className={`size-[9px] rounded-full ${tile.dot}`}
-                      aria-hidden
-                    />
                     <div>
                       <h3 className="text-[22px] leading-[1.15] font-medium tracking-[-0.5px]">
                         {copy.title}
                       </h3>
-                      <p className={`mt-2 text-sm leading-[1.45] ${tile.body}`}>
+                      <p className="mt-2 text-sm leading-[1.5] text-ink/60">
                         {copy.body}
                       </p>
                     </div>

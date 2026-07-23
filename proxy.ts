@@ -39,5 +39,7 @@ export const config = {
   // y el endpoint deja de responder. `getquote`/`cotiza` son las landings de
   // campaña: viven fuera de `[lang]` con URL limpia, así que NO deben redirigirse
   // al idioma del navegador (romperían el enlace del anuncio).
-  matcher: ["/((?!api|_next|assets|favicon.ico|getquote|cotiza|.*\\.).*)"],
+  matcher: [
+    "/((?!api|_next|assets|favicon.ico|getquote|cotiza|renta-de-naves-industriales|.*\\.).*)",
+  ],
 };
